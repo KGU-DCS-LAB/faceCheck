@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity(name = "admin")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admin {
@@ -17,7 +19,7 @@ public class Admin {
     private String adminPassword;
     private String email;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Company company;
 
     public Admin(String name, String adminId, String adminPassword, String email, Company company) {
