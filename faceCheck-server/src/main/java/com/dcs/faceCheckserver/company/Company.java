@@ -1,10 +1,9 @@
 package com.dcs.faceCheckserver.company;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "company")
 @Getter
@@ -19,7 +18,15 @@ public class Company {
 
     private String name;
 
-    public Company(String name) {
+    @ElementCollection
+    private List<String> positions;
+
+    @ElementCollection
+    private List<String> departments;
+
+    public Company(String name, List<String> positions, List<String> departments) {
         this.name = name;
+        this.positions = positions;
+        this.departments = departments;
     }
 }

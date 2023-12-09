@@ -1,13 +1,10 @@
-package com.dcs.faceCheckserver.admin;
+package com.dcs.faceCheckserver.admin.data;
 
 import com.dcs.faceCheckserver.company.Company;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity(name = "admin")
-@Getter
-@Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class Admin {
@@ -18,14 +15,16 @@ public class Admin {
     private String name;
     private String adminId;
     private String adminPassword;
+    private String email;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Company company;
 
-    public Admin(String name, String adminId, String adminPassword, Company company) {
+    public Admin(String name, String adminId, String adminPassword, String email, Company company) {
         this.name = name;
         this.adminId = adminId;
         this.adminPassword = adminPassword;
+        this.email = email;
         this.company = company;
     }
 }
