@@ -8,6 +8,7 @@ import FeatureIntroduction from "./pages/FeatureIntroduction";
 import SystemManagement from "./pages/SystemManagement";
 import VisitorManagement from "./pages/VisitorManagement";
 import RouteWithSidebar from "./SidebarRoute";
+import SignUp from "./pages/SignUp";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/Signup" element={<SignUp />} />
         <Route
           path="/access-management"
           element={<RouteWithSidebar element={<AccessManagement />} />}
