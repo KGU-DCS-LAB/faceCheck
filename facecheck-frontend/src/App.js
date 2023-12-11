@@ -1,25 +1,40 @@
-// src/App.js
-
-import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import UserRegist from './pages/UserRegist';
-import Home from './pages/Home';
-import EmployeeRegistration from './pages/EmployeeRegist';
-import VisitorRegistration from './pages/VisitorRegist';
+import React from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Header from "./Header";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import AccessManagement from "./pages/AccessManagement";
+import FeatureIntroduction from "./pages/FeatureIntroduction";
+import SystemManagement from "./pages/SystemManagement";
+import VisitorManagement from "./pages/VisitorManagement";
+import RouteWithSidebar from "./SidebarRoute";
 
 function App() {
   return (
-<>
-<BrowserRouter>
-<Routes>
-<Route path="/" element={<Home />} />
-  <Route path="/userRegist" element={<UserRegist />} />
-  <Route path="/employee" element={<EmployeeRegistration />} />
-  <Route path="/visitor" element={<VisitorRegistration />} />
-  {/* 기타 라우트 정의 */}
-</Routes>
-</BrowserRouter>
-</>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/access-management"
+          element={<RouteWithSidebar element={<AccessManagement />} />}
+        />
+        <Route
+          path="/feature-introduction"
+          element={<RouteWithSidebar element={<FeatureIntroduction />} />}
+        />
+        <Route
+          path="/system-management"
+          element={<RouteWithSidebar element={<SystemManagement />} />}
+        />
+        <Route
+          path="/visitor-management"
+          element={<RouteWithSidebar element={<VisitorManagement />} />}
+        />
+        {/* Other routes */}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
