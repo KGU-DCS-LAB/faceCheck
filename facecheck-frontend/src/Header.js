@@ -48,7 +48,6 @@ function Header() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-            {/* Wrap the logo with Link */}
             <img
               alt="Logo"
               src={LogoImage}
