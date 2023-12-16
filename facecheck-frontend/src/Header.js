@@ -1,16 +1,14 @@
-import React, { useState } from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import MenuItem from "@mui/material/MenuItem";
-import { Link } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
-
+import React from "react";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  Toolbar,
+  Typography,
+} from "@mui/material";
 import LogoImage from "../src/assets/logo.png";
+import { Link } from "react-router-dom";
 
 const pages = [
   { title: "출입관리시스템", link: "/access-management" },
@@ -20,31 +18,15 @@ const pages = [
 ];
 
 function Header() {
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [isLoggedIn, setLoggedIn] = useState(false);
-
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const handleLogin = () => {
-    setLoggedIn((prevLoggedIn) => !prevLoggedIn);
-  };
-
   return (
-    <AppBar position="static" sx={{ backgroundColor: "white", color: "black" }}>
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "white",
+        color: "black",
+        zIndex: 2,
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
@@ -70,21 +52,28 @@ function Header() {
             }}
           >
             {pages.map((page) => (
-              <Button
+              <Typography
                 key={page.title}
                 component={Link}
                 to={page.link}
-                sx={{ my: 2, color: "black", display: "block" }}
+                variant="body1"
+                sx={{
+                  my: 2,
+                  color: "black",
+                  display: "block",
+                  fontFamily: "Noto Serif KR, serif",
+                  textDecoration: "none",
+                }}
               >
                 {page.title}
-              </Button>
+              </Typography>
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
+            {" "}
             <Button
               color="inherit"
-              onClick={handleLogin}
               component={Link}
               to="/login"
               sx={{
@@ -92,6 +81,8 @@ function Header() {
                 "&:hover": {
                   backgroundColor: "darkgray",
                 },
+                fontFamily: "Noto Serif KR, serif",
+                textDecoration: "none",
               }}
             >
               관리자로그인
