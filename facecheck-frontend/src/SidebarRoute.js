@@ -3,14 +3,16 @@ import Sidebar from "./components/Sidebar";
 
 const RouteWithSidebar = ({ element: Element, ...rest }) => {
   if (!Element || typeof Element !== "function") {
-    // Handle invalid Element prop (optional: add more specific error handling)
+    console.error("Invalid Element prop:", Element);
     return null;
   }
+
+  // 이전과 같은 코드
 
   return (
     <>
       <Sidebar />
-      <div style={{ marginLeft: "200px" /* Adjust the margin as needed */ }}>
+      <div style={{ marginLeft: "200px" }}>
         <Element {...rest} />
       </div>
     </>
