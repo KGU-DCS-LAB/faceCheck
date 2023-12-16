@@ -13,7 +13,7 @@ import AccessManagement from "./pages/AccessManagement";
 import FeatureIntroduction from "./pages/FeatureIntroduction";
 import SystemManagement from "./pages/system-management/SystemManagement";
 import VisitorManagement from "./pages/visitor-management/VisitorManagement";
-import MyPage from "./pages/Mypage";
+//import MyPage from "./pages/Mypage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Sidebar from "./components/Sidebar";
 import "./App.css";
@@ -25,6 +25,7 @@ import EmployeeRegister from "./pages/visitor-management/EmployeeRegister";
 import VisitorRegister from "./pages/visitor-management/VisitorReigster";
 import VisitorList from "./pages/visitor-management/VisitorList";
 import EmployeeList from "./pages/visitor-management/EmployeeList";
+import SignUp from "./pages/SignUp";
 
 function LocationAwareComponent() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/access-management" element={<AccessManagement />} />
               <Route
                 path="/feature-introduction"
