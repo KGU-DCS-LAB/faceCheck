@@ -7,8 +7,13 @@ import React, {useState} from "react";
 import "../../src/style.css";
 import WelcomeToFacecheckImage from "../assets/welcomeToFacecheck.png";
 import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
+
+
 
 export default function SignUp() {
+
+    const navigate = useNavigate();
 
     const [AdminName, setAdminName] = useState("");
     const [AdminId, setAdminId] = useState("");
@@ -39,7 +44,30 @@ export default function SignUp() {
         setCompanyName(e.target.value)
     }
 
+    const onSubmit = (e) => {
+        e.preventDefault();
 
+        const variables = {
+            name: AdminName,
+            adminId: AdminId,
+            adminPassword: AdminPassword,
+            email: Email,
+            companyName: CompanyName,
+            companyPosition: CompanyPosition,
+            companyDepartment: CompanyDepartment,
+        }
+
+        Axios.post('/admin/join', variables)
+            .then(response => {
+                if(response.data){
+                    console.log(response.data);
+                    alert("회원가입에 성공했습니다.")
+                    navigate("/login");
+                }else {
+                    alert('회원가입에 실패했습니다.')
+                }
+            })
+    }
 
     return (
         <div className="container" style={{ marginTop: "50px" }}>
@@ -150,24 +178,6 @@ export default function SignUp() {
                                     value={CompanyName}
                                 />
 
-                                <TextField
-                                    id="standard-basic"
-                                    label="CompanyPosition"
-                                    variant="standard"
-                                    margin="normal"
-                                    fullWidth
-                                    sx={{ width: "100%" }}
-                                />
-
-                                <TextField
-                                    id="standard-basic"
-                                    label="CompanyDepartment"
-                                    variant="standard"
-                                    margin="normal"
-                                    fullWidth
-                                    sx={{ width: "100%" }}
-                                />
-
                                 <div
                                     style={{
                                         display: "flex",
@@ -186,6 +196,7 @@ export default function SignUp() {
                                                 backgroundColor: "#7487A7",
                                             },
                                         }}
+                                        onClick={onSubmit}
                                     >
                                         Sign Up
                                     </Button>
