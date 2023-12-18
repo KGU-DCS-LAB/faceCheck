@@ -97,7 +97,7 @@ export default function SignUp() {
                     <Card
                         sx={{
                             width: "60%",
-                            minHeight: 350,
+                            minHeight: 450,
                             position: "relative",
                             zIndex: 2,
                         }}
@@ -108,7 +108,7 @@ export default function SignUp() {
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 justifyContent: "center",
-                                height: "100%",
+                                padding: "8%"
                             }}
                         >
                             <Typography
