@@ -4,8 +4,6 @@ package com.dcs.faceCheckserver.admin;
 import com.dcs.faceCheckserver.admin.data.*;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 @RestController
 public class AdminController {
     private final AdminService adminService;
@@ -16,7 +14,7 @@ public class AdminController {
 
     //관리자 회원가입
     @RequestMapping(value = "/admin/join", method = RequestMethod.POST)
-    public boolean joinAdmin(@RequestBody AdminRequestDTO adminRequestDTO) {
+    public boolean joinAdmin(@RequestBody AdminJoinRequestDTO adminRequestDTO) {
         return adminService.join(adminRequestDTO);
     }
 

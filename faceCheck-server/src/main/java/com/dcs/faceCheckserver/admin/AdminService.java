@@ -2,7 +2,7 @@ package com.dcs.faceCheckserver.admin;
 
 import com.dcs.faceCheckserver.admin.data.Admin;
 import com.dcs.faceCheckserver.admin.data.AdminLoginResponseDTO;
-import com.dcs.faceCheckserver.admin.data.AdminRequestDTO;
+import com.dcs.faceCheckserver.admin.data.AdminJoinRequestDTO;
 import com.dcs.faceCheckserver.company.data.Company;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.transaction.Transactional;
@@ -19,7 +19,7 @@ public class AdminService {
         this.adminRepository = adminRepository;
     }
 
-    public boolean join(AdminRequestDTO adminRequestDTO) {
+    public boolean join(AdminJoinRequestDTO adminRequestDTO) {
         String name = adminRequestDTO.getName();
         String adminId = adminRequestDTO.getAdminId();
         String adminPassword = adminRequestDTO.getAdminPassword();
