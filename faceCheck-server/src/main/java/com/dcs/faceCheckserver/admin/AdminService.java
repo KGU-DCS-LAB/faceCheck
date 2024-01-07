@@ -1,16 +1,14 @@
 package com.dcs.faceCheckserver.admin;
 
 import com.dcs.faceCheckserver.admin.data.Admin;
+import com.dcs.faceCheckserver.admin.data.AdminLoginResponseDTO;
 import com.dcs.faceCheckserver.admin.data.AdminRequestDTO;
-import com.dcs.faceCheckserver.admin.data.AdminResponseDTO;
-import com.dcs.faceCheckserver.company.Company;
-import jakarta.persistence.NoResultException;
+import com.dcs.faceCheckserver.company.data.Company;
 import jakarta.persistence.NonUniqueResultException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -37,7 +35,7 @@ public class AdminService {
         return true;
     }
 
-    public AdminResponseDTO login(String adminId, String adminPassword) {
+    public AdminLoginResponseDTO login(String adminId, String adminPassword) {
         try {
             // adminId와 일치하는 모든 관리자 검색
             List<Admin> admins = adminRepository.findByAdminId(adminId);
@@ -50,8 +48,8 @@ public class AdminService {
                         .orElse(null);
 
                 if (loggedInAdmin != null) {
-                    // 관리자를 찾은 경우 AdminResponseDTO 생성 및 반환
-                    return new AdminResponseDTO(loggedInAdmin.getId(), loggedInAdmin.getName(), loggedInAdmin.getCompany().getId(), loggedInAdmin.getCompany().getName());
+                    // 관리자를 찾은 경우 AdminLoginResponseDTO 생성 및 반환
+                    return new AdminLoginResponseDTO(loggedInAdmin.getId(), loggedInAdmin.getAdminId(), loggedInAdmin.getName());
                 } else {
                     // 관리자를 찾지 못한 경우
                     System.out.println("비밀번호가 일치하지 않음");
