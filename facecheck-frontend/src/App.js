@@ -25,6 +25,7 @@ import EmployeeRegister from "./pages/visitor-management/EmployeeRegister";
 import VisitorRegister from "./pages/visitor-management/VisitorReigster";
 import VisitorList from "./pages/visitor-management/VisitorList";
 import EmployeeList from "./pages/visitor-management/EmployeeList";
+import SignUp from "./pages/SignUp";
 
 function LocationAwareComponent() {
   const location = useLocation();
@@ -46,6 +47,7 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
               <Route path="/access-management" element={<AccessManagement />} />
               <Route
                 path="/feature-introduction"
