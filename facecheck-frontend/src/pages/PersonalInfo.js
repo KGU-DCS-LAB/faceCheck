@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 
-const PersonalInfo = ({ name, email }) => {
+const PersonalInfo = ({ name, email, isCompanyEditing }) => {
   const [userInfo, setUserInfo] = useState({ name: "", email: "" });
-  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setUserInfo({ name, email });
@@ -17,15 +16,6 @@ const PersonalInfo = ({ name, email }) => {
     setUserInfo({ ...userInfo, email: e.target.value });
   };
 
-  const handleSaveClick = () => {
-    setIsEditing(false);
-    // 여기서 변경된 userInfo를 저장하는 로직을 추가할 수 있습니다.
-  };
-
-  const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
   return (
     <>
       <TextField
@@ -34,7 +24,7 @@ const PersonalInfo = ({ name, email }) => {
         variant="standard"
         margin="normal"
         fullWidth
-        disabled={!isEditing}
+        disabled={!isCompanyEditing}
         value={userInfo.name}
         onChange={handleNameChange}
       />
@@ -44,11 +34,10 @@ const PersonalInfo = ({ name, email }) => {
         variant="standard"
         margin="normal"
         fullWidth
-        disabled={!isEditing}
+        disabled={!isCompanyEditing}
         value={userInfo.email}
         onChange={handleEmailChange}
       />
-      {/* 버튼 관련 코드 유지 */}
     </>
   );
 };

@@ -7,8 +7,11 @@ import {
   Button,
 } from "@mui/material";
 
-const CompanyInfo = () => {
-  const [isCompanyEditing, setIsCompanyEditing] = useState(false);
+const CompanyInfo = ({
+  isCompanyEditing,
+  setIsCompanyEditing,
+  handleCompanyEditClick,
+}) => {
   const [companyName, setCompanyName] = useState("");
   const [selectedPositions, setSelectedPositions] = useState([]);
   const [selectedDepartments, setSelectedDepartments] = useState([]);
@@ -27,10 +30,6 @@ const CompanyInfo = () => {
     setSelectedDepartments(departments);
   };
 
-  const handleCompanyEditClick = () => {
-    setIsCompanyEditing(true);
-  };
-
   const handleSaveCompanyClick = () => {
     setIsCompanyEditing(false);
   };
@@ -40,28 +39,27 @@ const CompanyInfo = () => {
   };
 
   const getChipColor = (positionOrDepartment) => {
-    // position 또는 department에 따라 다른 색상을 반환하도록 설정
     switch (positionOrDepartment) {
       case "사원":
-        return "#FFC3A0"; // 연한 오렌지 색상
+        return "#FFC3A0";
       case "대리":
-        return "#A0FFC3"; // 연한 녹색 색상
+        return "#A0FFC3";
       case "과장":
-        return "#C3A0FF"; // 연한 보라색 색상
+        return "#C3A0FF";
       case "영업":
-        return "#FFD68F"; // 연한 노란색 색상
+        return "#FFD68F";
       case "개발":
-        return "#80C45A"; // 연한 초록색 색상
+        return "#80C45A";
       case "인사":
-        return "#FFEC8B"; // 연한 금색 색상
+        return "#FFEC8B";
       case "재무":
-        return "#A4CAFF"; // 연한 파란색 색상
+        return "#A4CAFF";
       case "마케팅":
-        return "#FF9EFF"; // 연한 분홍색 색상
+        return "#FF9EFF";
       case "기타":
-        return "#BEBEBE"; // 연한 회색 색상
+        return "#BEBEBE";
       default:
-        return "#333333"; // 검정색 글자 색상
+        return "#333333";
     }
   };
 
@@ -131,8 +129,8 @@ const CompanyInfo = () => {
                         label={position}
                         sx={{
                           marginLeft: "4px",
-                          color: "white", // 텍스트 색상
-                          backgroundColor: getChipColor(position), // 배경 색상 함수 호출
+                          color: "white",
+                          backgroundColor: getChipColor(position),
                         }}
                       />
                     </div>
@@ -197,8 +195,8 @@ const CompanyInfo = () => {
                         label={department}
                         sx={{
                           marginLeft: "4px",
-                          color: "white", // 텍스트 색상
-                          backgroundColor: getChipColor(department), // 배경 색상 함수 호출
+                          color: "white",
+                          backgroundColor: getChipColor(department),
                         }}
                       />
                     </div>

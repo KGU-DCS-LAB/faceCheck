@@ -1,4 +1,4 @@
-import { Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography, Button } from "@mui/material";
 import WelcomeToFacecheckImage from "../assets/welcomeToFacecheck.png";
 import "../style.css";
 import PersonalInfo from "./PersonalInfo";
@@ -53,6 +53,13 @@ export default function MyPage() {
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(";").shift();
   }
+
+  const [isCompanyEditing, setIsCompanyEditing] = useState(false);
+
+  const handleCompanyEditClick = () => {
+    setIsCompanyEditing(true);
+  };
+
   return (
     <div className="container" style={{ marginTop: "50px" }}>
       <div
@@ -107,14 +114,18 @@ export default function MyPage() {
               >
                 MyPage
               </Typography>
-              {/* 개인 정보 섹션 */}
               <PersonalInfo
                 name={userInfo.name || ""}
                 email={userInfo.email || ""}
+                isCompanyEditing={isCompanyEditing}
               />
 
-              {/* 회사 정보 섹션 */}
-              <CompanyInfo {...companyInfo} />
+              <CompanyInfo
+                companyInfo={companyInfo}
+                isCompanyEditing={isCompanyEditing}
+                setIsCompanyEditing={setIsCompanyEditing}
+                handleCompanyEditClick={handleCompanyEditClick}
+              />
             </CardContent>
           </Card>
         </div>
