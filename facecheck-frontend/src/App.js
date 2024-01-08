@@ -13,7 +13,7 @@ import AccessManagement from "./pages/AccessManagement";
 import FeatureIntroduction from "./pages/FeatureIntroduction";
 import SystemManagement from "./pages/system-management/SystemManagement";
 import VisitorManagement from "./pages/visitor-management/VisitorManagement";
-//import MyPage from "./pages/Mypage";
+import MyPage from "./pages/Mypage";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Sidebar from "./components/Sidebar";
 import "./App.css";

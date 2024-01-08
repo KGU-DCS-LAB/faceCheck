@@ -1,6 +1,6 @@
 package com.dcs.faceCheckserver.admin.data;
 
-import com.dcs.faceCheckserver.company.Company;
+import com.dcs.faceCheckserver.company.data.Company;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,7 +19,7 @@ public class Admin {
     private String adminPassword;
     private String email;
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL)
     private Company company;
 
     public Admin(String name, String adminId, String adminPassword, String email, Company company) {

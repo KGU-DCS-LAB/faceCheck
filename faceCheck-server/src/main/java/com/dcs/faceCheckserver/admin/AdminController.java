@@ -1,12 +1,8 @@
 package com.dcs.faceCheckserver.admin;
 
 
-import com.dcs.faceCheckserver.admin.data.Admin;
-import com.dcs.faceCheckserver.admin.data.AdminRequestDTO;
-import com.dcs.faceCheckserver.admin.data.AdminResponseDTO;
+import com.dcs.faceCheckserver.admin.data.*;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 public class AdminController {
@@ -18,15 +14,15 @@ public class AdminController {
 
     //관리자 회원가입
     @RequestMapping(value = "/admin/join", method = RequestMethod.POST)
-    public boolean joinAdmin(@RequestBody AdminRequestDTO adminRequestDTO) {
+    public boolean joinAdmin(@RequestBody AdminJoinRequestDTO adminRequestDTO) {
         return adminService.join(adminRequestDTO);
     }
 
     //관리자 로그인
     @RequestMapping(value = "/admin/login", method = RequestMethod.POST)
-    public AdminResponseDTO loginAdmin(@RequestBody Map<String, String> admin) {
-        String adminId = admin.get("adminId");
-        String adminPassword = admin.get("adminPassword");
+    public AdminLoginResponseDTO loginAdmin(@RequestBody AdminLoginDTO admin) {
+        String adminId = admin.getAdminId();
+        String adminPassword = admin.getAdminPassword();
         return adminService.login(adminId, adminPassword);
     }
 }

@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class AdminRequestDTO {
+public class AdminJoinRequestDTO {
     private String name;
     private String adminId;
     private String adminPassword;
