@@ -1,57 +1,81 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import React, {useState} from "react";
-import {Link as RouterLink} from "react-router-dom";
 import "../../src/style.css";
 import WelcomeToFacecheckImage from "../assets/welcomeToFacecheck.png";
-import Axios from "axios";
-import {useNavigate} from "react-router-dom";
+import Axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
-export default function Login() {
+
+
+export default function SignUp() {
 
     const navigate = useNavigate();
 
-    const [Id, setId] = useState("");
-    const [Password, setPassword] = useState("");
+    const [AdminName, setAdminName] = useState("");
+    const [AdminId, setAdminId] = useState("");
+    const [AdminPassword, setAdminPassword] = useState("");
+    const [Email, setEmail] = useState("");
+    const [CompanyName, setCompanyName] = useState("");
+    const [CompanyPosition, setCompanyPosition] = useState([]);
+    const [CompanyDepartment, setCompanyDepartment] = useState([]);
 
-    const onIdChange = (e) => {
-        setId(e.target.value)
+
+    const onAdminNameChange = (e) => {
+        setAdminName(e.target.value)
     }
-    const onPasswordChange = (e) => {
-        setPassword(e.target.value)
+
+    const onAdminIdChange = (e) => {
+        setAdminId(e.target.value)
+    }
+
+    const onAdminPasswordChange = (e) => {
+        setAdminPassword(e.target.value)
+    }
+
+    const onEmailChange = (e) => {
+        setEmail(e.target.value)
+    }
+
+    const onCompanyNameChange = (e) => {
+        setCompanyName(e.target.value)
     }
 
     const onSubmit = (e) => {
         e.preventDefault();
 
         const variables = {
-            adminId: Id,
-            adminPassword: Password,
+            name: AdminName,
+            adminId: AdminId,
+            adminPassword: AdminPassword,
+            email: Email,
+            companyName: CompanyName,
+            companyPosition: CompanyPosition,
+            companyDepartment: CompanyDepartment,
         }
 
-        Axios.post('/admin/login', variables)
+        Axios.post('/admin/join', variables)
             .then(response => {
-                if (response.data) {
+                if(response.data){
                     console.log(response.data);
-                    alert("로그인에 성공했습니다.")
-                    navigate("/");
-                } else {
-                    alert('로그인에 실패했습니다.')
+                    alert("회원가입에 성공했습니다.")
+                    navigate("/login");
+                }else {
+                    alert('회원가입에 실패했습니다.')
                 }
             })
     }
 
     return (
-        <div className="container" style={{marginTop: "50px"}}>
+        <div className="container" style={{ marginTop: "50px" }}>
             <div
                 className="background-image"
-                style={{display: "flex", justifyContent: "flex-start"}}
+                style={{ display: "flex", justifyContent: "flex-start" }}
             >
-                <div className="logo" style={{flex: "0 0 auto", marginTop: "20px"}}>
+                <div className="logo" style={{ flex: "0 0 auto", marginTop: "20px" }}>
                     <img
                         src={WelcomeToFacecheckImage}
                         alt="Logo"
@@ -84,9 +108,7 @@ export default function Login() {
                                 flexDirection: "column",
                                 alignItems: "flex-start",
                                 justifyContent: "center",
-                                padding: "8%",
-                                paddingBottom: "20%",
-                                paddingTop: "15%"
+                                padding: "8%"
                             }}
                         >
                             <Typography
@@ -97,9 +119,20 @@ export default function Login() {
                                     fontWeight: "bold",
                                 }}
                             >
-                                Login
+                                Sign Up
                             </Typography>
                             <form>
+                                <TextField
+                                    id="standard-basic"
+                                    label="Name"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    sx={{ width: "100%" }}
+                                    onChange={onAdminNameChange}
+                                    value={AdminName}
+                                />
+
                                 <TextField
                                     id="standard-basic"
                                     label="ID"
@@ -107,24 +140,42 @@ export default function Login() {
                                     margin="normal"
                                     fullWidth
                                     sx={{ width: "100%" }}
-                                    onChange={onIdChange}
-                                    value={Id}
+                                    onChange={onAdminIdChange}
+                                    value={AdminId}
                                 />
 
                                 <TextField
                                     id="standard-basic"
-                                    label="PASSWORD"
+                                    label="Password"
                                     type="password"
                                     variant="standard"
                                     margin="normal"
                                     fullWidth
                                     sx={{ width: "100%" }}
-                                    onChange={onPasswordChange}
-                                    value={Password}
+                                    onChange={onAdminPasswordChange}
+                                    value={AdminPassword}
                                 />
 
                                 <TextField
-                                    sx={{ visibility: 'hidden' }}
+                                    id="standard-basic"
+                                    label="Email"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    sx={{ width: "100%" }}
+                                    onChange={onEmailChange}
+                                    value={Email}
+                                />
+
+                                <TextField
+                                    id="standard-basic"
+                                    label="CompanyName"
+                                    variant="standard"
+                                    margin="normal"
+                                    fullWidth
+                                    sx={{ width: "100%" }}
+                                    onChange={onCompanyNameChange}
+                                    value={CompanyName}
                                 />
 
                                 <div
@@ -135,13 +186,6 @@ export default function Login() {
                                         gap: "8px",
                                     }}
                                 >
-                                    <Link
-                                        component={RouterLink}
-                                        to="/signup"
-                                        sx={{color: "#9FB9DE"}}
-                                    >
-                                        아직 회원이 아니라면?
-                                    </Link>
                                     <Button
                                         type="submit"
                                         variant="contained"
@@ -154,7 +198,7 @@ export default function Login() {
                                         }}
                                         onClick={onSubmit}
                                     >
-                                        Sign In
+                                        Sign Up
                                     </Button>
                                 </div>
                             </form>
@@ -165,3 +209,4 @@ export default function Login() {
         </div>
     );
 }
+
