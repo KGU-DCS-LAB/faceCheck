@@ -100,4 +100,17 @@ public class AdminService {
         Employee employee = new Employee(name, number, "요청전");
         employeeRepository.save(employee);
     }
+
+    public boolean approveEmployee(String number) {
+        Employee employeeToApprove = employeeRepository.findByNumber(number);
+
+        if (employeeToApprove != null) {
+            // 직원 승인 처리
+            employeeToApprove.setState("완료");
+            employeeRepository.save(employeeToApprove);
+            return true;
+        }
+
+        return false;
+    }
 }

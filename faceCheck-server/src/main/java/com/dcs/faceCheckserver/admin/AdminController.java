@@ -2,6 +2,7 @@ package com.dcs.faceCheckserver.admin;
 
 
 import com.dcs.faceCheckserver.admin.dto.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,5 +52,14 @@ public class AdminController {
     @RequestMapping(value = "/employee/approve", method = RequestMethod.GET)
     public List<AdminApprovedEmployeeListDTO> getPendingApprovalEmployees() {
         return adminService.getPendingApprovalEmployees();
+    }
+
+    //직원 승인
+    @RequestMapping(value = "/employee/approve/{number}", method = RequestMethod.POST)
+    public ResponseEntity<String> approveEmployee(@PathVariable String number) {
+        if (adminService.approveEmployee(number)) {
+            return ResponseEntity.ok("성공적으로 승인되었습니다.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 number의 직원이 존재하지 않습니다.");
     }
 }
