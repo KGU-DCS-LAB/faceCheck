@@ -95,4 +95,9 @@ public class AdminService {
                 })
                 .collect(Collectors.toList());
     }
+
+    public void createEmployee(String name, String number) {
+        Employee employee = new Employee(name, number, false);
+        employeeRepository.save(employee);
+    }
 }

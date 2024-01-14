@@ -41,4 +41,10 @@ public class Employee {
         this.position = position;
         this.cameras = cameras;
     }
+
+    public Employee(String name, String number, boolean state) {
+        this.name = name;
+        this.number = number;
+        this.state = state;
+    }
 }

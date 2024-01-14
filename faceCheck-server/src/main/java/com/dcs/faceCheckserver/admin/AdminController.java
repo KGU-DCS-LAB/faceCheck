@@ -1,10 +1,8 @@
 package com.dcs.faceCheckserver.admin;
 
 
-import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
-import com.dcs.faceCheckserver.admin.dto.AdminJoinRequestDTO;
-import com.dcs.faceCheckserver.admin.dto.AdminLoginDTO;
-import com.dcs.faceCheckserver.admin.dto.AdminLoginResponseDTO;
+import com.dcs.faceCheckserver.admin.dto.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -36,5 +34,16 @@ public class AdminController {
     @RequestMapping(value = "/employee", method = RequestMethod.GET)
     public List<AdminApprovedEmployeeListDTO> approvedEmployeeList() {
         return adminService.getAprrovedEmployeeList();
+    }
+
+    //직원 등록
+    @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
+    public ResponseEntity<String> createEmployee(@RequestBody CreateEmployeeRequestDTO createEmployeeRequestDTO) {
+        String name = createEmployeeRequestDTO.getName();
+        String number = createEmployeeRequestDTO.getNumber();
+
+        adminService.createEmployee(name, number);
+
+        return ResponseEntity.ok("직원이 성공적으로 등록되었습니다.");
     }
 }
