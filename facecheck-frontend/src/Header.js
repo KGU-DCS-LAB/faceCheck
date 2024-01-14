@@ -7,6 +7,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { useCookies } from "react-cookie"; // react-cookie에서 useCookies와 removeCookie를 가져옴
 import LogoImage from "../src/assets/logo.png";
 import { Link } from "react-router-dom";
 
@@ -18,6 +19,13 @@ const pages = [
 ];
 
 function Header() {
+  const [cookies, setCookie, removeCookie] = useCookies(["adminId"]);
+
+  const handleLogout = () => {
+    // 쿠키에서 adminId 제거
+    removeCookie("adminId");
+  };
+
   return (
     <AppBar
       position="static"
@@ -71,22 +79,59 @@ function Header() {
           </Box>
 
           <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
-            {" "}
-            <Button
-              color="inherit"
-              component={Link}
-              to="/login"
-              sx={{
-                backgroundColor: "gray",
-                "&:hover": {
-                  backgroundColor: "darkgray",
-                },
-                fontFamily: "Noto Serif KR, serif",
-                textDecoration: "none",
-              }}
-            >
-              관리자로그인
-            </Button>
+            {cookies.adminId ? ( // adminId 쿠키가 존재하면 마이페이지 버튼 표시
+              <Button
+                color="inherit"
+                component={Link}
+                to="/mypage"
+                sx={{
+                  backgroundColor: "gray",
+                  "&:hover": {
+                    backgroundColor: "darkgray",
+                  },
+                  fontFamily: "Noto Serif KR, serif",
+                  textDecoration: "none",
+                  marginRight: 1, // 여백을 조절할 marginLeft과 함께 marginRight 추가
+                }}
+              >
+                {cookies.adminId} 님
+              </Button>
+            ) : (
+              // adminId 쿠키가 존재하지 않으면 로그인 버튼 표시
+              <Button
+                color="inherit"
+                component={Link}
+                to="/login"
+                sx={{
+                  backgroundColor: "gray",
+                  "&:hover": {
+                    backgroundColor: "darkgray",
+                  },
+                  fontFamily: "Noto Serif KR, serif",
+                  textDecoration: "none",
+                }}
+              >
+                관리자로그인
+              </Button>
+            )}
+            {cookies.adminId && ( // adminId 쿠키가 존재하면 로그아웃 버튼 표시
+              <Button
+                color="inherit"
+                onClick={handleLogout}
+                component={Link}
+                to="/"
+                sx={{
+                  backgroundColor: "gray",
+                  "&:hover": {
+                    backgroundColor: "darkgray",
+                  },
+                  fontFamily: "Noto Serif KR, serif",
+                  textDecoration: "none",
+                }}
+              >
+                로그아웃
+              </Button>
+            )}
           </Box>
         </Toolbar>
       </Container>
