@@ -19,14 +19,10 @@ public class Admin {
     private String adminPassword;
     private String email;
 
-    @OneToOne(mappedBy = "admin", cascade = CascadeType.ALL)
-    private Company company;
-
-    public Admin(String name, String adminId, String adminPassword, String email, Company company) {
+    public Admin(String name, String adminId, String adminPassword, String email) {
         this.name = name;
         this.adminId = adminId;
         this.adminPassword = adminPassword;
         this.email = email;
-        this.company = company;
     }
 }

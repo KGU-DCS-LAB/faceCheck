@@ -1,4 +1,4 @@
-package com.dcs.faceCheckserver.admin.data;
+package com.dcs.faceCheckserver.admin.dto;
 
 import lombok.Data;
 
