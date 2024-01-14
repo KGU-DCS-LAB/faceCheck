@@ -1,6 +1,5 @@
 package com.dcs.faceCheckserver.employee.data;
 
-import com.dcs.faceCheckserver.admin.data.Admin;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.data.Position;
@@ -24,6 +23,7 @@ public class Employee {
 
     private String name; //직원 이름
     private String number; //직원 번호
+    private boolean state; //승인된 직원은 true, 승인 전 직원은 false
 
     @ManyToOne
     private Department department; //부서
@@ -31,18 +31,14 @@ public class Employee {
     @ManyToOne
     private Position position; //직급
 
-    @ManyToOne
-    private Admin admin; //회사 관리자
-
     @ManyToMany
     private List<Camera> cameras;
 
-    public Employee(String name, String number, Department department, Position position, List<Camera> cameras, Admin admin) {
+    public Employee(String name, String number, Department department, Position position, List<Camera> cameras) {
         this.name = name;
         this.number = number;
         this.department = department;
         this.position = position;
         this.cameras = cameras;
-        this.admin = admin;
     }
 }
