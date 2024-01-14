@@ -23,7 +23,7 @@ public class Employee {
 
     private String name; //직원 이름
     private String number; //직원 번호
-    private boolean state; //승인된 직원은 true, 승인 전 직원은 false
+    private String state; //요청전, 요청, 완료
 
     @ManyToOne
     private Department department; //부서
@@ -42,7 +42,7 @@ public class Employee {
         this.cameras = cameras;
     }
 
-    public Employee(String name, String number, boolean state) {
+    public Employee(String name, String number, String state) {
         this.name = name;
         this.number = number;
         this.state = state;

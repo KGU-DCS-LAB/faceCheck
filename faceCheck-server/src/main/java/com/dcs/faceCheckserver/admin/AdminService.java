@@ -1,19 +1,13 @@
 package com.dcs.faceCheckserver.admin;
 
-import com.dcs.faceCheckserver.admin.data.Admin;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
-import com.dcs.faceCheckserver.admin.dto.AdminLoginResponseDTO;
-import com.dcs.faceCheckserver.admin.dto.AdminJoinRequestDTO;
-import com.dcs.faceCheckserver.company.data.Company;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -78,9 +72,15 @@ public class AdminService {
 //    }
 
     public List<AdminApprovedEmployeeListDTO> getAprrovedEmployeeList() {
-        List<Employee> approvedEmployees = employeeRepository.findByState(true);
+        return getEmployees(employeeRepository.findByState("완료"));
+    }
 
-        return approvedEmployees.stream()
+    public List<AdminApprovedEmployeeListDTO> getPendingApprovalEmployees() {
+        return getEmployees(employeeRepository.findByState("요청"));
+    }
+
+    private List<AdminApprovedEmployeeListDTO> getEmployees(List<Employee> employees) {
+        return employees.stream()
                 .map(employee -> {
                     AdminApprovedEmployeeListDTO employeeDTO = new AdminApprovedEmployeeListDTO();
                     employeeDTO.setName(employee.getName());
@@ -97,7 +97,7 @@ public class AdminService {
     }
 
     public void createEmployee(String name, String number) {
-        Employee employee = new Employee(name, number, false);
+        Employee employee = new Employee(name, number, "요청전");
         employeeRepository.save(employee);
     }
 }

@@ -46,4 +46,10 @@ public class AdminController {
 
         return ResponseEntity.ok("직원이 성공적으로 등록되었습니다.");
     }
+
+    //직원 승인 대기 리스트 조회
+    @RequestMapping(value = "/employee/approve", method = RequestMethod.GET)
+    public List<AdminApprovedEmployeeListDTO> getPendingApprovalEmployees() {
+        return adminService.getPendingApprovalEmployees();
+    }
 }
