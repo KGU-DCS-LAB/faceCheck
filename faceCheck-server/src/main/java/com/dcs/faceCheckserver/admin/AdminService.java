@@ -159,4 +159,16 @@ public class AdminService {
         Visitor visitor = new Visitor(name, number, cameraList);
         visitorRepository.save(visitor);
     }
+
+    public boolean approveVisitor(String number) {
+        Visitor visitorToApprove = visitorRepository.findByNumber(number);
+
+        if (visitorToApprove != null) {
+            visitorToApprove.setState("완료");
+            visitorRepository.save(visitorToApprove);
+            return true;
+        }
+
+        return false;
+    }
 }

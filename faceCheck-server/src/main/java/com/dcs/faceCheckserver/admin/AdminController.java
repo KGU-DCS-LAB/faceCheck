@@ -86,4 +86,13 @@ public class AdminController {
     public List<AdminApprovedVisitorListDTO> getPendingApprovalVisitors() {
         return adminService.getPendingApprovalVisitors();
     }
+
+    //방문자 승인
+    @RequestMapping(value = "/visitor/approve/{number}", method = RequestMethod.POST)
+    public ResponseEntity<String> approveVisitor(@PathVariable String number) {
+        if (adminService.approveVisitor(number)) {
+            return ResponseEntity.ok("성공적으로 승인되었습니다.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 number의 방문자가 존재하지 않습니다.");
+    }
 }

@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface VisitorRepository extends JpaRepository<Visitor, Long> {
     List<Visitor> findByState(String state);
+
+    Visitor findByNumber(String number);
 }
