@@ -62,4 +62,10 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 number의 직원이 존재하지 않습니다.");
     }
+
+    //승인된 방문자 전체 리스트 조회
+    @RequestMapping(value = "/visitor", method = RequestMethod.GET)
+    public List<AdminApprovedVisitorListDTO> approvedVisitorList() {
+        return adminService.getAprrovedVisitorList();
+    }
 }

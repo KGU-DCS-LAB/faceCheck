@@ -1,8 +1,11 @@
 package com.dcs.faceCheckserver.admin;
 
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
+import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
+import com.dcs.faceCheckserver.visitor.VisitorRepository;
+import com.dcs.faceCheckserver.visitor.data.Visitor;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +18,12 @@ import java.util.stream.Collectors;
 public class AdminService {
     private final AdminRepository adminRepository;
     private final EmployeeRepository employeeRepository;
+    private final VisitorRepository visitorRepository;
 
-    public AdminService(AdminRepository adminRepository, EmployeeRepository employeeRepository) {
+    public AdminService(AdminRepository adminRepository, EmployeeRepository employeeRepository, VisitorRepository visitorRepository) {
         this.adminRepository = adminRepository;
         this.employeeRepository = employeeRepository;
+        this.visitorRepository = visitorRepository;
     }
 
 //    public boolean join(AdminJoinRequestDTO adminRequestDTO) {
@@ -79,6 +84,10 @@ public class AdminService {
         return getEmployees(employeeRepository.findByState("요청"));
     }
 
+    public List<AdminApprovedVisitorListDTO> getAprrovedVisitorList() {
+        return getVisitors(visitorRepository.findByState("완료"));
+    }
+
     private List<AdminApprovedEmployeeListDTO> getEmployees(List<Employee> employees) {
         return employees.stream()
                 .map(employee -> {
@@ -92,6 +101,22 @@ public class AdminService {
                             .map(camera -> Collections.singletonList(camera.getCameraName()))
                             .orElse(Collections.emptyList()));
                     return employeeDTO;
+                })
+                .collect(Collectors.toList());
+    }
+
+    private List<AdminApprovedVisitorListDTO> getVisitors(List<Visitor> visitors) {
+        return visitors.stream()
+                .map(visitor -> {
+                    AdminApprovedVisitorListDTO visitorDTO = new AdminApprovedVisitorListDTO();
+                    visitorDTO.setName(visitor.getName());
+                    visitorDTO.setNumber(visitor.getNumber());
+                    visitorDTO.setVisitPurpose(visitor.getVisitPurpose());
+                    visitorDTO.setCamera(visitor.getCameras().stream()
+                            .findFirst()
+                            .map(camera -> Collections.singletonList(camera.getCameraName()))
+                            .orElse(Collections.emptyList()));
+                    return visitorDTO;
                 })
                 .collect(Collectors.toList());
     }
