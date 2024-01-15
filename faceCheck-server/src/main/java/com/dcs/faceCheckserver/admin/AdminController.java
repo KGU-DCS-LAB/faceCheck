@@ -62,4 +62,37 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 number의 직원이 존재하지 않습니다.");
     }
+
+    //승인된 방문자 전체 리스트 조회
+    @RequestMapping(value = "/visitor", method = RequestMethod.GET)
+    public List<AdminApprovedVisitorListDTO> approvedVisitorList() {
+        return adminService.getAprrovedVisitorList();
+    }
+
+    //방문자 등록
+    @RequestMapping(value = "/visitor/create", method = RequestMethod.POST)
+    public ResponseEntity<String> createVisitor(@RequestBody CreateVisitorRequestDTO createVisitorRequestDTO) {
+        String name = createVisitorRequestDTO.getName();
+        String number = createVisitorRequestDTO.getNumber();
+        List<String> camera = createVisitorRequestDTO.getCamera();
+
+        adminService.createVisitor(name, number, camera);
+
+        return ResponseEntity.ok("방문자가 성공적으로 등록되었습니다.");
+    }
+
+    //방문자 승인 대기 리스트 조회
+    @RequestMapping(value = "/visitor/approve", method = RequestMethod.GET)
+    public List<AdminApprovedVisitorListDTO> getPendingApprovalVisitors() {
+        return adminService.getPendingApprovalVisitors();
+    }
+
+    //방문자 승인
+    @RequestMapping(value = "/visitor/approve/{number}", method = RequestMethod.POST)
+    public ResponseEntity<String> approveVisitor(@PathVariable String number) {
+        if (adminService.approveVisitor(number)) {
+            return ResponseEntity.ok("성공적으로 승인되었습니다.");
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 number의 방문자가 존재하지 않습니다.");
+    }
 }
