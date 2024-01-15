@@ -2,7 +2,7 @@ package com.dcs.faceCheckserver.admin;
 
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
-import com.dcs.faceCheckserver.company.CameraRepository;
+import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
@@ -11,7 +11,6 @@ import com.dcs.faceCheckserver.visitor.data.Visitor;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
