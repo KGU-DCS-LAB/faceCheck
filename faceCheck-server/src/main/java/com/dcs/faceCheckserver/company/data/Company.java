@@ -18,12 +18,12 @@ public class Company {
 
     private String companyName;
 
-    @OneToMany(mappedBy = "company")
-    private List<Position> positions;
-
-    @OneToMany(mappedBy = "company")
-    private List<Department> departments;
-
-    @OneToMany(mappedBy = "company")
-    private List<Camera> cameras;
+//    @OneToMany(mappedBy = "company")
+//    private List<Position> positions;
+//
+//    @OneToMany(mappedBy = "company")
+//    private List<Department> departments;
+//
+//    @OneToMany(mappedBy = "company")
+//    private List<Camera> cameras;
 }
