@@ -26,4 +26,10 @@ public class Visitor {
 
     @ManyToMany
     private List<Camera> cameras;
+
+    public Visitor(String number, String visitPurpose, List<Camera> cameras) {
+        this.number = number;
+        this.visitPurpose = visitPurpose;
+        this.cameras = cameras;
+    }
 }

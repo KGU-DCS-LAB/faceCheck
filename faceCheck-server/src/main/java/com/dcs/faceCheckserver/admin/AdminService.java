@@ -2,6 +2,8 @@ package com.dcs.faceCheckserver.admin;
 
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
+import com.dcs.faceCheckserver.company.CameraRepository;
+import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
 import com.dcs.faceCheckserver.visitor.VisitorRepository;
@@ -9,8 +11,10 @@ import com.dcs.faceCheckserver.visitor.data.Visitor;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,11 +23,13 @@ public class AdminService {
     private final AdminRepository adminRepository;
     private final EmployeeRepository employeeRepository;
     private final VisitorRepository visitorRepository;
+    private final CameraRepository cameraRepository;
 
-    public AdminService(AdminRepository adminRepository, EmployeeRepository employeeRepository, VisitorRepository visitorRepository) {
+    public AdminService(AdminRepository adminRepository, EmployeeRepository employeeRepository, VisitorRepository visitorRepository, CameraRepository cameraRepository) {
         this.adminRepository = adminRepository;
         this.employeeRepository = employeeRepository;
         this.visitorRepository = visitorRepository;
+        this.cameraRepository = cameraRepository;
     }
 
 //    public boolean join(AdminJoinRequestDTO adminRequestDTO) {
@@ -137,5 +143,16 @@ public class AdminService {
         }
 
         return false;
+    }
+
+    public void createVisitor(String name, String number, List<String> cameras) {
+        List<Camera> cameraList = cameras.stream()
+                .map(cameraRepository::findByName)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        // Visitor 객체 생성
+        Visitor visitor = new Visitor(name, number, cameraList);
+        visitorRepository.save(visitor);
     }
 }

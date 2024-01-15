@@ -1,12 +1,16 @@
 package com.dcs.faceCheckserver.company.data;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "department")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Department {
 
     @Id
@@ -19,11 +23,6 @@ public class Department {
     @JoinColumn(name = "company_id")
     private Company company;
 
-    public Department(String department) {
-        this.department = department;
-    }
-
-    public Department() {
-
-    }
+    @ManyToOne
+    private Camera camera;
 }

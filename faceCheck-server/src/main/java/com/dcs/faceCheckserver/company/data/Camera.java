@@ -3,6 +3,8 @@ package com.dcs.faceCheckserver.company.data;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity(name = "camera")
 @Getter
 @Setter
@@ -14,13 +16,8 @@ public class Camera {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String cameraName;
+    private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-
-    public Camera(String cameraName) {
-        this.cameraName = cameraName;
-    }
+    @OneToMany(mappedBy = "camera")
+    private List<Department> department;
 }
