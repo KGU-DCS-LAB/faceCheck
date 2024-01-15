@@ -94,6 +94,10 @@ public class AdminService {
         return getVisitors(visitorRepository.findByState("완료"));
     }
 
+    public List<AdminApprovedVisitorListDTO> getPendingApprovalVisitors() {
+        return getVisitors(visitorRepository.findByState("요청"));
+    }
+
     private List<AdminApprovedEmployeeListDTO> getEmployees(List<Employee> employees) {
         return employees.stream()
                 .map(employee -> {
@@ -104,7 +108,7 @@ public class AdminService {
                     employeeDTO.setPosition(employee.getPosition().getPosition());
                     employeeDTO.setCamera(employee.getCameras().stream()
                             .findFirst()
-                            .map(camera -> Collections.singletonList(camera.getCameraName()))
+                            .map(camera -> Collections.singletonList(camera.getName()))
                             .orElse(Collections.emptyList()));
                     return employeeDTO;
                 })
@@ -120,7 +124,7 @@ public class AdminService {
                     visitorDTO.setVisitPurpose(visitor.getVisitPurpose());
                     visitorDTO.setCamera(visitor.getCameras().stream()
                             .findFirst()
-                            .map(camera -> Collections.singletonList(camera.getCameraName()))
+                            .map(camera -> Collections.singletonList(camera.getName()))
                             .orElse(Collections.emptyList()));
                     return visitorDTO;
                 })

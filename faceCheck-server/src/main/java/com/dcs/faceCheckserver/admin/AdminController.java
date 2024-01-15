@@ -80,4 +80,10 @@ public class AdminController {
 
         return ResponseEntity.ok("방문자가 성공적으로 등록되었습니다.");
     }
+
+    //방문자 승인 대기 리스트 조회
+    @RequestMapping(value = "/visitor/approve", method = RequestMethod.GET)
+    public List<AdminApprovedVisitorListDTO> getPendingApprovalVisitors() {
+        return adminService.getPendingApprovalVisitors();
+    }
 }
