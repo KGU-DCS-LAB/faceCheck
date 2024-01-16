@@ -18,6 +18,11 @@ public class Camera {
 
     private String name;
 
-    @OneToMany(mappedBy = "camera")
+    @ElementCollection(fetch = FetchType.LAZY)
     private List<Department> department;
+
+    public Camera(String name, List<Department> department) {
+        this.name = name;
+        this.department = department;
+    }
 }

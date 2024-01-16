@@ -15,8 +15,4 @@ public class Position {
     private Long id;
 
     private String position;
-
-    @ManyToOne
-    @JoinColumn(name = "company_id") // 외래 키 설정
-    private Company company;
 }

@@ -1,6 +1,7 @@
 package com.dcs.faceCheckserver.company;
 
 import com.dcs.faceCheckserver.company.dto.AllCompaniesDTO;
+import com.dcs.faceCheckserver.company.dto.CreateCameraRequestDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,5 +31,16 @@ public class CompanyController {
         List<String> departmentsName = requestBody.get("department");
         companyService.createDepartment(departmentsName);
         return ResponseEntity.ok("부서가 성공적으로 등록되었습니다.");
+    }
+
+    //카메라 등록
+    @RequestMapping(value = "/camera/create", method = RequestMethod.POST)
+    public ResponseEntity<String> createCamera(@RequestBody CreateCameraRequestDTO createCameraRequestDTO) {
+        String cameraName = createCameraRequestDTO.getCamera();
+        List<String> departmentsName = createCameraRequestDTO.getDepartment();
+
+        companyService.createCamera(cameraName, departmentsName);
+
+        return ResponseEntity.ok("얼굴 인식 카메라가 성공적으로 등록되었습니다.");
     }
 }
