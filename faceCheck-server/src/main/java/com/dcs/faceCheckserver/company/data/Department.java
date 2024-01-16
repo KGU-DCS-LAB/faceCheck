@@ -20,9 +20,9 @@ public class Department {
     private String department;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
-
-    @ManyToOne
     private Camera camera;
+
+    public Department(String department) {
+        this.department = department;
+    }
 }

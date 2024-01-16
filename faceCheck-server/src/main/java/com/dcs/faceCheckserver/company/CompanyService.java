@@ -49,4 +49,11 @@ public class CompanyService {
 
         return new AllCompaniesDTO(departmentsName, positionsName, cameraDTOS);
     }
+
+    public void createDepartment(List<String> departmentsName) {
+        departmentsName.stream()
+                .map(Department::new)
+                .forEach(departmentRepository::save);
+
+    }
 }
