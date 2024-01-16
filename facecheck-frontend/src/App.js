@@ -6,15 +6,13 @@ import {
   Outlet,
   useLocation,
 } from "react-router-dom";
-import Header from "./Header";
+import Header from "./components/Header";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import AccessManagement from "./pages/AccessManagement";
-import FeatureIntroduction from "./pages/FeatureIntroduction";
 import SystemManagement from "./pages/system-management/SystemManagement";
 import VisitorManagement from "./pages/visitor-management/VisitorManagement";
-import MyPage from "./pages/Mypage";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import MyPage from "./pages/mypage/Mypage";
 import Sidebar from "./components/Sidebar";
 import "./App.css";
 import EmployeeAccessRecord from "./pages/system-management/EmployeeAccessRecord";
@@ -26,6 +24,11 @@ import VisitorRegister from "./pages/visitor-management/VisitorReigster";
 import VisitorList from "./pages/visitor-management/VisitorList";
 import EmployeeList from "./pages/visitor-management/EmployeeList";
 import SignUp from "./pages/SignUp";
+import CompanyInfoRegister from "./pages/system-management/CompanyInfoRegister";
+import CameraRegister from "./pages/system-management/CameraRegister";
+import CompanyList from "./pages/system-management/CompanyList";
+import VisitorRequest from "./pages/visitor-management/VisitorRequest";
+import EmployeeRequest from "./pages/visitor-management/EmployeeRequest";
 
 function LocationAwareComponent() {
   const location = useLocation();
@@ -41,72 +44,59 @@ function App() {
     <BrowserRouter>
       <Header />
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <div style={{ display: "flex", marginTop: "50px" }}>
-          <LocationAwareComponent />
-          <div style={{ width: "100%" }}>
+        <div style={{ display: "flex" }}>
+          <div style={{ flex: 1, width: "100%" }}>
+            <LocationAwareComponent />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/mypage" element={<MyPage />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/access-management" element={<AccessManagement />} />
-              <Route
-                path="/feature-introduction"
-                element={<FeatureIntroduction />}
-              />
 
-              <Route
-                path="/system-management"
-                element={
-                  <>
-                    <SystemManagement />
-                    <Outlet />
-                  </>
-                }
-              >
+              <Route path="/system-management" element={<SystemManagement />}>
                 <Route
-                  path="/system-management/employee/accessRecord"
+                  path="employee/accessRecord"
                   element={<EmployeeAccessRecord />}
                 />
                 <Route
-                  path="/system-management/visitor/accessRecord"
+                  path="visitor/accessRecord"
                   element={<VisitorAccessRecord />}
                 />
                 <Route
-                  path="/system-management/facialRecognition/register"
+                  path="facialRecognition/register"
                   element={<FacialRecognitionRegister />}
                 />
                 <Route
-                  path="/system-management/facialRecognition/list"
+                  path="facialRecognition/list"
                   element={<FacialRecognitionList />}
                 />
+                <Route
+                  path="companyInformation/enter"
+                  element={<CompanyInfoRegister />}
+                />
+                <Route
+                  path="companyInformation/camera"
+                  element={<CameraRegister />}
+                />
+                <Route
+                  path="companyInformation/companyList"
+                  element={<CompanyList />}
+                />
+                <Route element={<Outlet />} />{" "}
               </Route>
 
-              <Route
-                path="/visitor-management"
-                element={
-                  <>
-                    <VisitorManagement />
-                    <Outlet />
-                  </>
-                }
-              >
+              <Route path="/visitor-management" element={<VisitorManagement />}>
                 <Route
-                  path="/visitor-management/employee/register"
+                  path="employee/register"
                   element={<EmployeeRegister />}
                 />
-                <Route
-                  path="/visitor-management/visitor/register"
-                  element={<VisitorRegister />}
-                />
-                <Route
-                  path="/visitor-management/employee/list"
-                  element={<EmployeeList />}
-                />
-                <Route
-                  path="/visitor-management/visitor/list"
-                  element={<VisitorList />}
-                />
+                <Route path="visitor/register" element={<VisitorRegister />} />
+                <Route path="employee/list" element={<EmployeeList />} />
+                <Route path="visitor/list" element={<VisitorList />} />
+                <Route path="visitor/request" element={<VisitorRequest />} />
+                <Route path="employee/request" element={<EmployeeRequest />} />
+                <Route element={<Outlet />} />
               </Route>
             </Routes>
           </div>
