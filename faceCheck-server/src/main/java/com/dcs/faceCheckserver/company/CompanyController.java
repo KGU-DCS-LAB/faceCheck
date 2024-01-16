@@ -43,4 +43,12 @@ public class CompanyController {
 
         return ResponseEntity.ok("얼굴 인식 카메라가 성공적으로 등록되었습니다.");
     }
+
+    //직급 등록
+    @RequestMapping(value = "/position/create", method = RequestMethod.POST)
+    public ResponseEntity<String> createPosition(@RequestBody Map<String, List<String>> requestBody) {
+        List<String> positionsName = requestBody.get("position");
+        companyService.createPosition(positionsName);
+        return ResponseEntity.ok("직급이 성공적으로 등록되었습니다.");
+    }
 }

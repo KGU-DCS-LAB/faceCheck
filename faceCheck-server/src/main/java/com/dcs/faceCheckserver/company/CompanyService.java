@@ -66,4 +66,10 @@ public class CompanyService {
         Camera camera = new Camera(cameraName, departmentList);
         cameraRepository.save(camera);
     }
+
+    public void createPosition(List<String> positionsName) {
+        positionsName.stream()
+                .map(Position::new)
+                .forEach(positionRepository::save);
+    }
 }
