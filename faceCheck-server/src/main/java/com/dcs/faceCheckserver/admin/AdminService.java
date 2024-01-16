@@ -5,12 +5,15 @@ import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
 import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
+import com.dcs.faceCheckserver.employee.data.CameraEmployee;
 import com.dcs.faceCheckserver.employee.data.Employee;
 import com.dcs.faceCheckserver.visitor.VisitorRepository;
+import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import com.dcs.faceCheckserver.visitor.data.Visitor;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -105,10 +108,13 @@ public class AdminService {
                     employeeDTO.setNumber(employee.getNumber());
                     employeeDTO.setDepartment(employee.getDepartment().getDepartment());
                     employeeDTO.setPosition(employee.getPosition().getPosition());
-                    employeeDTO.setCamera(employee.getCameras().stream()
-                            .findFirst()
-                            .map(camera -> Collections.singletonList(camera.getName()))
-                            .orElse(Collections.emptyList()));
+
+                    List<String> cameraNames = employee.getCameraEmployees().stream()
+                            .map(CameraEmployee::getCamera)
+                            .map(Camera::getName)
+                            .collect(Collectors.toList());
+
+                    employeeDTO.setCamera(cameraNames);
                     return employeeDTO;
                 })
                 .collect(Collectors.toList());
@@ -121,17 +127,20 @@ public class AdminService {
                     visitorDTO.setName(visitor.getName());
                     visitorDTO.setNumber(visitor.getNumber());
                     visitorDTO.setVisitPurpose(visitor.getVisitPurpose());
-                    visitorDTO.setCamera(visitor.getCameras().stream()
-                            .findFirst()
-                            .map(camera -> Collections.singletonList(camera.getName()))
-                            .orElse(Collections.emptyList()));
+
+                    List<String> cameraNames = visitor.getCameraVisitors().stream()
+                            .map(CameraVisitor::getCamera)
+                            .map(Camera::getName)
+                            .collect(Collectors.toList());
+
+                    visitorDTO.setCamera(cameraNames);
                     return visitorDTO;
                 })
                 .collect(Collectors.toList());
     }
 
     public void createEmployee(String name, String number) {
-        Employee employee = new Employee(name, number, "요청전");
+        Employee employee = new Employee(name, number, "요청");
         employeeRepository.save(employee);
     }
 
@@ -152,10 +161,23 @@ public class AdminService {
         List<Camera> cameraList = cameras.stream()
                 .map(cameraRepository::findByName)
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .toList();
 
         // Visitor 객체 생성
-        Visitor visitor = new Visitor(name, number, cameraList);
+        Visitor visitor = new Visitor();
+        visitor.setName(name);
+        visitor.setNumber(number);
+        visitor.setCameraVisitors(new ArrayList<>());
+        visitor.setState("요청전");
+
+        // CameraVisitor를 생성하고 Visitor에 추가
+        for (Camera camera : cameraList) {
+            CameraVisitor cameraVisitor = new CameraVisitor();
+            cameraVisitor.setCamera(camera);
+            cameraVisitor.setVisitor(visitor);
+            visitor.getCameraVisitors().add(cameraVisitor);
+        }
+
         visitorRepository.save(visitor);
     }
 

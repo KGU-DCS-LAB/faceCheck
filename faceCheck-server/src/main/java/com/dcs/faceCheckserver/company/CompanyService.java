@@ -49,4 +49,21 @@ public class CompanyService {
 
         return new AllCompaniesDTO(departmentsName, positionsName, cameraDTOS);
     }
+
+    public void createDepartment(List<String> departmentsName) {
+        departmentsName.stream()
+                .map(Department::new)
+                .forEach(departmentRepository::save);
+
+    }
+
+    public void createCamera(String cameraName, List<String> departmentsName) {
+        List<Department> departmentList = new ArrayList<>();
+        for (String departmentName: departmentsName) {
+            departmentList.add(departmentRepository.findByDepartment(departmentName));
+        }
+
+        Camera camera = new Camera(cameraName, departmentList);
+        cameraRepository.save(camera);
+    }
 }

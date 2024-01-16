@@ -1,5 +1,8 @@
 package com.dcs.faceCheckserver.company.data;
 
+import com.dcs.faceCheckserver.employee.data.CameraEmployee;
+import com.dcs.faceCheckserver.employee.data.Employee;
+import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +21,17 @@ public class Camera {
 
     private String name;
 
-    @OneToMany(mappedBy = "camera")
-    private List<Department> department;
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<Department> department; //출입 가능 부서
+
+    @OneToMany(mappedBy = "camera", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CameraEmployee> cameraEmployees;
+
+    @OneToMany(mappedBy = "camera", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CameraVisitor> cameraVisitors;
+
+    public Camera(String name, List<Department> department) {
+        this.name = name;
+        this.department = department;
+    }
 }

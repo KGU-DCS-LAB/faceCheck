@@ -1,7 +1,10 @@
 package com.dcs.faceCheckserver.company.data;
 
+import com.dcs.faceCheckserver.employee.data.Employee;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "position")
 @Getter
@@ -16,7 +19,6 @@ public class Position {
 
     private String position;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id") // 외래 키 설정
-    private Company company;
+    @OneToMany
+    private List<Employee> employees;
 }
