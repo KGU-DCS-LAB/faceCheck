@@ -1,7 +1,10 @@
 package com.dcs.faceCheckserver.company.data;
 
+import com.dcs.faceCheckserver.employee.data.Employee;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "position")
 @Getter
@@ -15,4 +18,7 @@ public class Position {
     private Long id;
 
     private String position;
+
+    @OneToMany
+    private List<Employee> employees;
 }

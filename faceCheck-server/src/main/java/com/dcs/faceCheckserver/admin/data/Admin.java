@@ -1,6 +1,5 @@
 package com.dcs.faceCheckserver.admin.data;
 
-import com.dcs.faceCheckserver.company.data.Company;
 import jakarta.persistence.*;
 import lombok.*;
 

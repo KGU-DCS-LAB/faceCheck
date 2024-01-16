@@ -3,6 +3,7 @@ package com.dcs.faceCheckserver.employee.data;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.data.Position;
+import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,16 +32,8 @@ public class Employee {
     @ManyToOne
     private Position position; //직급
 
-    @ManyToMany
-    private List<Camera> cameras;
-
-    public Employee(String name, String number, Department department, Position position, List<Camera> cameras) {
-        this.name = name;
-        this.number = number;
-        this.department = department;
-        this.position = position;
-        this.cameras = cameras;
-    }
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CameraEmployee> cameraEmployees; //출입 가능 카메라
 
     public Employee(String name, String number, String state) {
         this.name = name;
