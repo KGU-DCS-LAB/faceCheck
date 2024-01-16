@@ -9,13 +9,15 @@ import Typography from "@mui/material/Typography";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import GroupIcon from "@mui/icons-material/Group";
 import HistoryIcon from "@mui/icons-material/History";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
+import BusinessIcon from "@mui/icons-material/Business";
 import FaceIcon from "@mui/icons-material/Face";
 import { Link } from "react-router-dom";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const Sidebar = () => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const [isBlurred, setIsBlurred] = useState(false);
 
   const getMenuItems = (path) => {
     switch (true) {
@@ -49,6 +51,24 @@ const Sidebar = () => {
               },
             ],
           },
+          {
+            text: "회사 정보 등록",
+            icon: <BusinessIcon />,
+            subMenus: [
+              {
+                text: "회사 정보 입력",
+                link: "/system-management/companyInformation/enter",
+              },
+              {
+                text: "카메라 등록",
+                link: "/system-management/companyInformation/camera",
+              },
+              {
+                text: "전체 회사 정보 조회",
+                link: "/system-management/companyInformation/companyList",
+              },
+            ],
+          },
         ];
       case path.startsWith("/visitor-management"):
         return [
@@ -67,7 +87,7 @@ const Sidebar = () => {
             ],
           },
           {
-            text: "출입자 관리",
+            text: "출입자 조회",
             icon: <GroupIcon />,
             subMenus: [
               {
@@ -77,6 +97,20 @@ const Sidebar = () => {
               {
                 text: "방문자 조회",
                 link: "/visitor-management/visitor/list",
+              },
+            ],
+          },
+          {
+            text: "승인 요청 목록",
+            icon: <CheckCircleIcon />,
+            subMenus: [
+              {
+                text: "직원 승인 요청",
+                link: "/visitor-management/employee/request",
+              },
+              {
+                text: "방문자 승인 요청",
+                link: "/visitor-management/visitor/request",
               },
             ],
           },
@@ -96,7 +130,15 @@ const Sidebar = () => {
       sx={{
         width: drawerWidth,
         flexShrink: 0,
-        [`& .MuiDrawer-paper`]: { width: drawerWidth, marginTop: "105px" },
+        [`& .MuiDrawer-paper`]: {
+          width: drawerWidth,
+          marginTop: "105px",
+          backdropFilter: isBlurred ? "blur(5px)" : "none",
+          backgroundColor: isBlurred
+            ? "rgba(255, 255, 255, 0.8)"
+            : "transparent",
+        },
+        transition: "backdrop-filter 0.3s ease",
       }}
     >
       <List>
