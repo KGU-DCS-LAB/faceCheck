@@ -19,6 +19,9 @@ public class Visitor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String visitorId;
+    private String visitorPassword;
+
     private String name;
     private String number;
     private String visitPurpose;

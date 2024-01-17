@@ -140,7 +140,7 @@ public class AdminService {
     }
 
     public void createEmployee(String name, String number) {
-        Employee employee = new Employee(name, number, "요청");
+        Employee employee = new Employee(name, number, "요청", number, number);
         employeeRepository.save(employee);
     }
 
@@ -169,6 +169,8 @@ public class AdminService {
         visitor.setNumber(number);
         visitor.setCameraVisitors(new ArrayList<>());
         visitor.setState("요청전");
+        visitor.setVisitorId(number);
+        visitor.setVisitorPassword(number);
 
         // CameraVisitor를 생성하고 Visitor에 추가
         for (Camera camera : cameraList) {
