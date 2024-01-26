@@ -51,7 +51,6 @@ public class TokenProvider {
                 .collect(Collectors.joining(","));
 
         long now = (new Date()).getTime();
-        System.out.println("test3");
 
         Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
 
@@ -64,7 +63,6 @@ public class TokenProvider {
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
-        System.out.println("test4");
         return TokenDTO.builder()
                 .grantType(BEARER_TYPE)
                 .accessToken(accessToken)

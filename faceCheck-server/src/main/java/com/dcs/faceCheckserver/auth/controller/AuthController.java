@@ -6,6 +6,7 @@ import com.dcs.faceCheckserver.auth.dto.TokenDTO;
 import com.dcs.faceCheckserver.auth.entity.Authority;
 import com.dcs.faceCheckserver.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,6 +37,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
-        return ResponseEntity.ok(authService.login(loginRequestDTO));
+        TokenDTO tokenDTO = authService.login(loginRequestDTO);
+        if (tokenDTO != null) {
+            return ResponseEntity.ok(tokenDTO);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }
