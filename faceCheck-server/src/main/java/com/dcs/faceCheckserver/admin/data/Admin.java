@@ -1,5 +1,6 @@
 package com.dcs.faceCheckserver.admin.data;
 
+import com.dcs.faceCheckserver.auth.entity.Authority;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,15 +14,19 @@ public class Admin {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @Column(nullable = false)
     private String adminId;
-    private String adminPassword;
-    private String email;
 
-    public Admin(String name, String adminId, String adminPassword, String email) {
-        this.name = name;
+    @Column(nullable = false)
+    private String adminPassword;
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
+    public Admin(String adminId, String adminPassword, Authority authority) {
         this.adminId = adminId;
         this.adminPassword = adminPassword;
-        this.email = email;
+        this.authority = authority;
     }
 }
