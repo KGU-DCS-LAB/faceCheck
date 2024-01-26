@@ -2,10 +2,14 @@ package com.dcs.faceCheckserver.auth.service;
 
 import com.dcs.faceCheckserver.admin.AdminRepository;
 import com.dcs.faceCheckserver.admin.data.Admin;
+import com.dcs.faceCheckserver.auth.dto.LoginRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.SignUpRequestDTO;
+import com.dcs.faceCheckserver.auth.dto.TokenDTO;
 import com.dcs.faceCheckserver.auth.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class AuthService {
-    private final AuthenticationManagerBuilder managerBuilder;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
@@ -35,14 +39,32 @@ public class AuthService {
 //        }
 //
 //        Member member = requestDto.toMember(passwordEncoder);
+//        Member member = requestDto.toMember(passwordEncoder);
 //        return MemberResponseDto.of(memberRepository.save(member));
 //    }
 
-//    public TokenDto login(MemberRequestDto requestDto) {
-//        UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-//
-//        Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
-//
+    public TokenDTO login(LoginRequestDTO loginRequestDTO) {
 //        return tokenProvider.generateTokenDto(authentication);
-//    }
+
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        UsernamePasswordAuthenticationToken authenticationToken = loginRequestDTO.toAuthentication();
+        System.out.println(authenticationToken);
+        System.out.println("test2");
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        System.out.println(authentication);
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+
+        // 4. RefreshToken 저장
+//        RefreshToken refreshToken = RefreshToken.builder()
+//                .key(authentication.getName())
+//                .value(tokenDto.getRefreshToken())
+//                .build();
+//
+//        refreshTokenRepository.save(refreshToken);
+
+        // 5. 토큰 발급
+        return tokenProvider.generateTokenDto(authentication);
+    }
 }

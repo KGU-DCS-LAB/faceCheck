@@ -1,6 +1,8 @@
 package com.dcs.faceCheckserver.auth.controller;
 
+import com.dcs.faceCheckserver.auth.dto.LoginRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.SignUpRequestDTO;
+import com.dcs.faceCheckserver.auth.dto.TokenDTO;
 import com.dcs.faceCheckserver.auth.entity.Authority;
 import com.dcs.faceCheckserver.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +34,8 @@ public class AuthController {
 //        return ResponseEntity.ok(authService.signup(requestDto));
 //    }
 
-//    @PostMapping("/login")
-//    public ResponseEntity<TokenDto> login(@RequestBody MemberRequestDto requestDto) {
-//        return ResponseEntity.ok(authService.login(requestDto));
-//    }
+    @PostMapping("/login")
+    public ResponseEntity<TokenDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {
+        return ResponseEntity.ok(authService.login(loginRequestDTO));
+    }
 }
