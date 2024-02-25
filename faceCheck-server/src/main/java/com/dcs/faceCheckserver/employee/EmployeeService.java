@@ -27,7 +27,9 @@ public class EmployeeService {
 //    }
 
     public void approveEmployee(String employeeId, ApproveEmployeeRequestDTO approveEmployeeRequestDTO) {
-        Employee employee = employeeRepository.findByEmployeeId(employeeId);
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                .orElse(new Employee()); // 빈 Employee 객체를 기본값으로 사용
+
         employee.setDepartment(departmentRepository.findByDepartment(approveEmployeeRequestDTO.getDepartment()));
         employee.setPosition(positionRepository.findByPosition(approveEmployeeRequestDTO.getPosition()));
         employeeRepository.save(employee);

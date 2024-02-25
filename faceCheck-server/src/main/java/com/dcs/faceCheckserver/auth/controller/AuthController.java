@@ -25,9 +25,12 @@ public class AuthController {
 
         if (Authority.ROLE_ADMIN.equals(authority)) {
             return ResponseEntity.ok(authService.signupAdmin(signUpRequestDTO));
+        } else if (Authority.ROLE_USER.equals(authority)) {
+            return ResponseEntity.ok(authService.signupEmployee(signUpRequestDTO));
         } else {
-            return ResponseEntity.ok("관리자가 아닙니다.");
+            return ResponseEntity.ok("방문자");
         }
+
     }
 
 //    @PostMapping("/signup")

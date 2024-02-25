@@ -6,6 +6,8 @@ import com.dcs.faceCheckserver.auth.dto.LoginRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.SignUpRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.TokenDTO;
 import com.dcs.faceCheckserver.auth.jwt.TokenProvider;
+import com.dcs.faceCheckserver.employee.EmployeeRepository;
+import com.dcs.faceCheckserver.employee.data.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AdminRepository adminRepository;
+    private final EmployeeRepository employeeRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
@@ -34,20 +37,22 @@ public class AuthService {
         return "관리자가 성공적으로 가입되었습니다.";
     }
 
-//    public MemberResponseDto signup(MemberRequestDto requestDto) {
-//        if (memberRepository.existsByEmail(requestDto.getEmail())) {
-//            throw new RuntimeException("이미 가입되어 있는 유저입니다");
-//        }
-//
-//        Member member = requestDto.toMember(passwordEncoder);
-//        Member member = requestDto.toMember(passwordEncoder);
-//        return MemberResponseDto.of(memberRepository.save(member));
-//    }
+    public String signupEmployee(SignUpRequestDTO signUpRequestDTO) {
+        if (employeeRepository.existsByNumber(signUpRequestDTO.getMemberId())) {
+            throw new RuntimeException("이미 가입되어 있는 직원입니다.");
+        }
+        Employee employee = signUpRequestDTO.toEmployee(passwordEncoder);
+        employeeRepository.save(employee);
+        return "직원이 성공적으로 가입되었습니다.";
+    }
+
 
     public TokenDTO login(LoginRequestDTO loginRequestDTO) {
         try {
             // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
             UsernamePasswordAuthenticationToken authenticationToken = loginRequestDTO.toAuthentication();
+            System.out.println(authenticationToken);
+
             // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
             //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
@@ -55,6 +60,8 @@ public class AuthService {
             // 3. 토큰 발급
             return tokenProvider.generateTokenDto(authentication);
         } catch (AuthenticationException e) {
+            System.out.println("Authentication failed: " + e.getMessage());
+            e.printStackTrace();
             // 로그인 실패
             return null;
         }

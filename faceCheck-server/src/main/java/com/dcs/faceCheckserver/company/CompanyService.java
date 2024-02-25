@@ -8,7 +8,9 @@ import com.dcs.faceCheckserver.company.dto.CameraDTO;
 import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.company.repository.DepartmentRepository;
 import com.dcs.faceCheckserver.company.repository.PositionRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +73,18 @@ public class CompanyService {
         positionsName.stream()
                 .map(Position::new)
                 .forEach(positionRepository::save);
+    }
+
+    public void updateDepartment(String originalDepartmentName, String updatedDepartmentName) {
+        Department department = departmentRepository.findByDepartment(originalDepartmentName);
+
+        // 부서가 존재하지 않는 경우 에러 처리
+        if (department == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "부서를 찾을 수 없습니다: " + originalDepartmentName);
+        }
+
+        // 수정된 부서 이름으로 업데이트합니다.
+        department.setDepartment(updatedDepartmentName);
+        departmentRepository.save(department);
     }
 }

@@ -1,14 +1,10 @@
 package com.dcs.faceCheckserver.employee.data;
 
-import com.dcs.faceCheckserver.company.data.Camera;
+import com.dcs.faceCheckserver.auth.entity.Authority;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.data.Position;
-import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -22,7 +18,10 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String employeeId;
+
+    @Column(nullable = false)
     private String employeePassword;
 
     private String name; //직원 이름
@@ -38,11 +37,22 @@ public class Employee {
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CameraEmployee> cameraEmployees; //출입 가능 카메라
 
-    public Employee(String name, String number, String state, String employeeId, String employeePassword) {
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
+    public Employee(String name, String employeeId, String employeePassword, String number, Authority authority, String state) {
+        this.name = name;
+        this.employeeId = employeeId;
+        this.employeePassword = employeePassword;
+        this.number = number;
+        this.authority = authority;
+        this.state = state;
+    }
+
+    public Employee(String name, String number, String state) {
         this.name = name;
         this.number = number;
         this.state = state;
-        this.employeeId = employeeId;
-        this.employeePassword = employeePassword;
     }
 }

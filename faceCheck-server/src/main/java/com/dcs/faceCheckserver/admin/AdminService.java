@@ -2,6 +2,7 @@ package com.dcs.faceCheckserver.admin;
 
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
+//import com.dcs.faceCheckserver.auth.service.AuthService;
 import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
@@ -11,6 +12,7 @@ import com.dcs.faceCheckserver.visitor.VisitorRepository;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import com.dcs.faceCheckserver.visitor.data.Visitor;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,18 +22,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AdminService {
     private final AdminRepository adminRepository;
     private final EmployeeRepository employeeRepository;
     private final VisitorRepository visitorRepository;
     private final CameraRepository cameraRepository;
-
-    public AdminService(AdminRepository adminRepository, EmployeeRepository employeeRepository, VisitorRepository visitorRepository, CameraRepository cameraRepository) {
-        this.adminRepository = adminRepository;
-        this.employeeRepository = employeeRepository;
-        this.visitorRepository = visitorRepository;
-        this.cameraRepository = cameraRepository;
-    }
+//    private final AuthService authService;
 
 //    public boolean join(AdminJoinRequestDTO adminRequestDTO) {
 //        String name = adminRequestDTO.getName();
@@ -138,9 +135,11 @@ public class AdminService {
                 .collect(Collectors.toList());
     }
 
-    public void createEmployee(String name, String number) {
-        Employee employee = new Employee(name, number, "요청", number, number);
+    public String createEmployee(String name, String number) {
+        Employee employee = new Employee(name, number, "요청");
         employeeRepository.save(employee);
+        return "관리자 등록";
+//        return authService.signupEmployee(new SignUpRequestDTO(name, number, number, Authority.ROLE_EMPLOYEE));
     }
 
     public boolean approveEmployee(String number) {

@@ -28,10 +28,7 @@ public class AdminController {
     public ResponseEntity<String> createEmployee(@RequestBody CreateEmployeeRequestDTO createEmployeeRequestDTO) {
         String name = createEmployeeRequestDTO.getName();
         String number = createEmployeeRequestDTO.getNumber();
-
-        adminService.createEmployee(name, number);
-
-        return ResponseEntity.ok("직원이 성공적으로 등록되었습니다.");
+        return ResponseEntity.ok(adminService.createEmployee(name, number));
     }
 
     //직원 승인 대기 리스트 조회
