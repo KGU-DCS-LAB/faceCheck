@@ -1,12 +1,11 @@
 package com.dcs.faceCheckserver.visitor.data;
 
+import com.dcs.faceCheckserver.auth.entity.Authority;
 import com.dcs.faceCheckserver.company.data.Camera;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "visitor")
@@ -28,5 +27,18 @@ public class Visitor {
     private String state; //요청전, 요청, 완료
 
     @OneToMany(mappedBy = "visitor", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CameraVisitor> cameraVisitors;
+    private List<CameraVisitor> cameraVisitors = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Authority authority;
+
+    @Builder
+    public Visitor(String visitorId, String visitorPassword, String name, String number, Authority authority, String state) {
+        this.visitorId = visitorId;
+        this.visitorPassword = visitorPassword;
+        this.name = name;
+        this.number = number;
+        this.authority = authority;
+        this.state = state;
+    }
 }

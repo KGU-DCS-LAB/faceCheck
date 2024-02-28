@@ -28,9 +28,10 @@ public class AuthController {
         } else if (Authority.ROLE_EMPLOYEE.equals(authority)) {
             return ResponseEntity.ok(authService.signupEmployee(signUpRequestDTO));
         } else {
-            return ResponseEntity.ok("방문자");
+            return ResponseEntity.ok(authService.signupVisitor(signUpRequestDTO));
         }
 
+//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("이 작업에는 관리자 권한이 필요합니다.");
     }
 
 //    @PostMapping("/signup")

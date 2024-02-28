@@ -6,8 +6,13 @@ import com.dcs.faceCheckserver.auth.dto.LoginRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.SignUpRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.TokenDTO;
 import com.dcs.faceCheckserver.auth.jwt.TokenProvider;
+import com.dcs.faceCheckserver.company.data.Camera;
+import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
+import com.dcs.faceCheckserver.visitor.VisitorRepository;
+import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
+import com.dcs.faceCheckserver.visitor.data.Visitor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,6 +22,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -24,6 +32,8 @@ public class AuthService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final AdminRepository adminRepository;
     private final EmployeeRepository employeeRepository;
+    private final VisitorRepository visitorRepository;
+    private final CameraRepository cameraRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
@@ -44,6 +54,27 @@ public class AuthService {
         Employee employee = signUpRequestDTO.toEmployee(passwordEncoder);
         employeeRepository.save(employee);
         return "직원이 성공적으로 가입되었습니다.";
+    }
+
+    public String signupVisitor(SignUpRequestDTO signUpRequestDTO) {
+        if (visitorRepository.existsByNumber(signUpRequestDTO.getMemberId())) {
+            throw new RuntimeException("이미 가입되어 있는 방문자입니다.");
+        }
+        Visitor visitor = signUpRequestDTO.toVisitor(passwordEncoder);
+        visitorRepository.save(visitor);
+
+        List<CameraVisitor> cameraVisitors = new ArrayList<>();
+        List<String> cameraNames = signUpRequestDTO.getCameraNames();
+        for (String cameraName: cameraNames) {
+            Camera camera = cameraRepository.findByName(cameraName);
+            CameraVisitor cameraVisitor = new CameraVisitor(camera, visitor);
+            cameraVisitors.add(cameraVisitor);
+        }
+
+        visitor.setCameraVisitors(cameraVisitors);
+        visitorRepository.save(visitor); // 방문자 정보 업데이트
+
+        return "방문자가 성공적으로 가입되었습니다.";
     }
 
 

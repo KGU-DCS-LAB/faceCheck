@@ -24,4 +24,9 @@ public class CameraVisitor {
     @ManyToOne
     @JoinColumn(name = "visitor_id")
     private Visitor visitor;
+
+    public CameraVisitor(Camera camera, Visitor visitor) {
+        this.camera = camera;
+        this.visitor = visitor;
+    }
 }
