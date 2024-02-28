@@ -25,7 +25,7 @@ public class AuthController {
 
         if (Authority.ROLE_ADMIN.equals(authority)) {
             return ResponseEntity.ok(authService.signupAdmin(signUpRequestDTO));
-        } else if (Authority.ROLE_USER.equals(authority)) {
+        } else if (Authority.ROLE_EMPLOYEE.equals(authority)) {
             return ResponseEntity.ok(authService.signupEmployee(signUpRequestDTO));
         } else {
             return ResponseEntity.ok("방문자");

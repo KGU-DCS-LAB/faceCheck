@@ -33,7 +33,7 @@ public class SignUpRequestDTO {
                 .employeeId(memberId)
                 .employeePassword(passwordEncoder.encode(memberId))
                 .number(memberId)
-                .authority(Authority.ROLE_USER)
+                .authority(Authority.ROLE_EMPLOYEE)
                 .state("요청전")
                 .build();
     }
