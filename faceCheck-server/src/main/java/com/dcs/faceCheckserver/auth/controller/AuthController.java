@@ -31,13 +31,8 @@ public class AuthController {
             return ResponseEntity.ok(authService.signupVisitor(signUpRequestDTO));
         }
 
-//        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("이 작업에는 관리자 권한이 필요합니다.");
     }
 
-//    @PostMapping("/signup")
-//    public ResponseEntity<MemberResponseDto> signup(@RequestBody MemberRequestDto requestDto) {
-//        return ResponseEntity.ok(authService.signup(requestDto));
-//    }
 
     @PostMapping("/login")
     public ResponseEntity<TokenDTO> login(@RequestBody LoginRequestDTO loginRequestDTO) {

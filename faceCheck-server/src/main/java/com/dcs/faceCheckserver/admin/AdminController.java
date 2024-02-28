@@ -23,14 +23,6 @@ public class AdminController {
         return adminService.getAprrovedEmployeeList();
     }
 
-    //직원 등록
-    @RequestMapping(value = "/employee/create", method = RequestMethod.POST)
-    public ResponseEntity<String> createEmployee(@RequestBody CreateEmployeeRequestDTO createEmployeeRequestDTO) {
-        String name = createEmployeeRequestDTO.getName();
-        String number = createEmployeeRequestDTO.getNumber();
-        return ResponseEntity.ok(adminService.createEmployee(name, number));
-    }
-
     //직원 승인 대기 리스트 조회
     @RequestMapping(value = "/employee/approve", method = RequestMethod.GET)
     public List<AdminApprovedEmployeeListDTO> getPendingApprovalEmployees() {
@@ -50,18 +42,6 @@ public class AdminController {
     @RequestMapping(value = "/visitor", method = RequestMethod.GET)
     public List<AdminApprovedVisitorListDTO> approvedVisitorList() {
         return adminService.getAprrovedVisitorList();
-    }
-
-    //방문자 등록
-    @RequestMapping(value = "/visitor/create", method = RequestMethod.POST)
-    public ResponseEntity<String> createVisitor(@RequestBody CreateVisitorRequestDTO createVisitorRequestDTO) {
-        String name = createVisitorRequestDTO.getName();
-        String number = createVisitorRequestDTO.getNumber();
-        List<String> camera = createVisitorRequestDTO.getCamera();
-
-        adminService.createVisitor(name, number, camera);
-
-        return ResponseEntity.ok("방문자가 성공적으로 등록되었습니다.");
     }
 
     //방문자 승인 대기 리스트 조회

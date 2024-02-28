@@ -1,7 +1,6 @@
 package com.dcs.faceCheckserver.employee;
 
 import com.dcs.faceCheckserver.employee.dto.ApproveEmployeeRequestDTO;
-import com.dcs.faceCheckserver.employee.dto.EmployeeMypageResponseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

@@ -1,7 +1,6 @@
 package com.dcs.faceCheckserver.visitor.data;
 
 import com.dcs.faceCheckserver.auth.entity.Authority;
-import com.dcs.faceCheckserver.company.data.Camera;
 import jakarta.persistence.*;
 import lombok.*;
 
