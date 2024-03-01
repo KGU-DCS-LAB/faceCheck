@@ -100,4 +100,84 @@ public class CompanyService {
         department.setDepartment(updatedDepartmentName);
         departmentRepository.save(department);
     }
+
+    public void updatePosition(String originalPositionName, String updatePositionName) {
+        Position position = positionRepository.findByPosition(originalPositionName);
+
+        // 직급이 존재하지 않는 경우 에러 처리
+        if (position == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "직급을 찾을 수 없습니다: " + originalPositionName);
+        }
+
+        // 수정된 직급 이름으로 업데이트합니다.
+        position.setPosition(updatePositionName);
+        positionRepository.save(position);
+    }
+
+    public void updateCamera(String originalCameraName, String updateCameraName, List<String> changeDepartmentNames) {
+        Camera camera = cameraRepository.findByName(originalCameraName);
+
+        // 카메라가 존재하지 않는 경우 에러 처리
+        if (camera == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "카메라를 찾을 수 없습니다: " + originalCameraName);
+        }
+
+        // 수정된 카메라 이름으로 업데이트합니다.
+        camera.setName(updateCameraName);
+
+        // 기존의 카메라 부서를 모두 삭제합니다.
+        camera.getCameraDepartments().clear();
+
+        // 변경된 부서에 대한 새로운 카메라 부서를 추가합니다.
+        for (String changeDepartmentName : changeDepartmentNames) {
+            CameraDepartment newCameraDepartment = new CameraDepartment();
+            newCameraDepartment.setCamera(camera);
+            Department department = departmentRepository.findByDepartment(changeDepartmentName);
+            newCameraDepartment.setDepartment(department);
+            camera.getCameraDepartments().add(newCameraDepartment);
+        }
+
+        // 수정된 부서로 업데이트합니다.
+        cameraRepository.save(camera);
+    }
+
+    public void deleteDepartment(String departmentName) {
+        // 주어진 부서 이름에 해당하는 부서를 찾습니다.
+        Department department = departmentRepository.findByDepartment(departmentName);
+
+        // 부서가 존재하지 않는 경우 에러 처리
+        if (department == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "부서를 찾을 수 없습니다: " + departmentName);
+        }
+
+        // 부서를 삭제합니다.
+        departmentRepository.delete(department);
+    }
+
+    public void deletePosition(String positionName) {
+        // 주어진 직책 이름에 해당하는 직급을 찾습니다.
+        Position position = positionRepository.findByPosition(positionName);
+
+        // 직급이 존재하지 않는 경우 에러 처리
+        if (position == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "직급을 찾을 수 없습니다: " + positionName);
+        }
+
+        // 직급을 삭제합니다.
+        positionRepository.delete(position);
+    }
+
+    public void deleteCamera(String cameraName) {
+        // 주어진 카메라 이름에 해당하는 카메라를 찾습니다.
+        Camera camera = cameraRepository.findByName(cameraName);
+
+        // 카메라가 존재하지 않는 경우 에러 처리
+        if (camera == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "얼굴 인식 카메라를 찾을 수 없습니다: " + cameraName);
+        }
+
+        // 카메라를 삭제합니다.
+        cameraRepository.delete(camera);
+    }
+
 }
