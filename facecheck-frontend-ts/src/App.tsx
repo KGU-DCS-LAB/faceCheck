@@ -1,6 +1,5 @@
 import React from "react";
-import {BrowserRouter, Routes, Route, Outlet, useLocation} from "react-router-dom";
-import logo from './logo.svg';
+import {BrowserRouter, Routes, Route, useLocation} from "react-router-dom";
 import './App.css';
 import Header from "./pages/Header";
 import Main from "./pages/Main";
@@ -13,7 +12,6 @@ import VisitorList from "./pages/visitor-management/VisitorList";
 import VisitorRequest from "./pages/visitor-management/VisitorRequest";
 import EmployeeRequest from "./pages/visitor-management/EmployeeRequest";
 import Sidebar from "./pages/Sidebar";
-import {Box, Typography} from "@mui/material";
 
 function LocationAwareComponent() {         //현재 페이지의 경로가 "/system-management" 또는 "/visitor-management"으로 시작하면 Sidebar 컴포넌트를 렌더링
     const location = useLocation();
