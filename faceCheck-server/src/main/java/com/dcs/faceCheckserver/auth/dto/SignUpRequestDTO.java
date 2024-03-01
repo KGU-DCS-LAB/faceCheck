@@ -7,12 +7,14 @@ import com.dcs.faceCheckserver.visitor.data.Visitor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class SignUpRequestDTO {
     private String name;

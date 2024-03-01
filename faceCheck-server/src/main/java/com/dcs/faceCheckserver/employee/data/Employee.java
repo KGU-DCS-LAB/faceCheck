@@ -6,8 +6,6 @@ import com.dcs.faceCheckserver.company.data.Position;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity(name = "employee")
 @Getter
 @Setter
@@ -33,9 +31,6 @@ public class Employee {
 
     @ManyToOne
     private Position position; //직급
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CameraEmployee> cameraEmployees; //출입 가능 카메라
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
