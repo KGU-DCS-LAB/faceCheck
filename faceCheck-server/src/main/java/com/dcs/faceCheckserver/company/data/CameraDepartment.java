@@ -1,18 +1,18 @@
-package com.dcs.faceCheckserver.employee.data;
+package com.dcs.faceCheckserver.company.data;
 
-import com.dcs.faceCheckserver.company.data.Camera;
+import com.dcs.faceCheckserver.employee.data.Employee;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name = "camera_employee")
+@Entity(name = "camera_department")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CameraEmployee {
+public class CameraDepartment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,6 +22,6 @@ public class CameraEmployee {
     private Camera camera;
 
     @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+    @JoinColumn(name = "department_id")
+    private Department department;
 }

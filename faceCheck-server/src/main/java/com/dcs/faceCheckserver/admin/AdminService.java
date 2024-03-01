@@ -3,10 +3,11 @@ package com.dcs.faceCheckserver.admin;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
 //import com.dcs.faceCheckserver.auth.service.AuthService;
+import com.dcs.faceCheckserver.company.data.CameraDepartment;
+import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
-import com.dcs.faceCheckserver.employee.data.CameraEmployee;
 import com.dcs.faceCheckserver.employee.data.Employee;
 import com.dcs.faceCheckserver.visitor.VisitorRepository;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
@@ -105,8 +106,8 @@ public class AdminService {
                     employeeDTO.setDepartment(employee.getDepartment().getDepartment());
                     employeeDTO.setPosition(employee.getPosition().getPosition());
 
-                    List<String> cameraNames = employee.getCameraEmployees().stream()
-                            .map(CameraEmployee::getCamera)
+                    List<String> cameraNames = employee.getDepartment().getCameraDepartments().stream()
+                            .map(CameraDepartment::getCamera)
                             .map(Camera::getName)
                             .collect(Collectors.toList());
 
@@ -115,6 +116,7 @@ public class AdminService {
                 })
                 .collect(Collectors.toList());
     }
+
 
     private List<AdminApprovedVisitorListDTO> getVisitors(List<Visitor> visitors) {
         return visitors.stream()

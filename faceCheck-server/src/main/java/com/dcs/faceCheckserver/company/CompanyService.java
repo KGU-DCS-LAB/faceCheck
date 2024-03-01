@@ -1,6 +1,7 @@
 package com.dcs.faceCheckserver.company;
 
 import com.dcs.faceCheckserver.company.data.Camera;
+import com.dcs.faceCheckserver.company.data.CameraDepartment;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.data.Position;
 import com.dcs.faceCheckserver.company.dto.AllCompaniesDTO;
@@ -42,7 +43,8 @@ public class CompanyService {
         List<CameraDTO> cameraDTOS = cameraRepository.findAll().stream()
                 .map(camera -> {
                     String name = camera.getName();
-                    List<String> cameraDepartmentsName = camera.getDepartment().stream()
+                    List<String> cameraDepartmentsName = camera.getCameraDepartments().stream()
+                            .map(CameraDepartment::getDepartment)
                             .map(Department::getDepartment)
                             .collect(Collectors.toList());
                     return new CameraDTO(name, cameraDepartmentsName);
@@ -60,13 +62,24 @@ public class CompanyService {
     }
 
     public void createCamera(String cameraName, List<String> departmentsName) {
-        List<Department> departmentList = new ArrayList<>();
+        List<CameraDepartment> cameraDepartments = new ArrayList<>();
+        Camera camera = new Camera(cameraName); // 카메라 객체 생성
+
         for (String departmentName: departmentsName) {
-            departmentList.add(departmentRepository.findByDepartment(departmentName));
+            Department department = departmentRepository.findByDepartment(departmentName);
+            if (department == null) {
+                // 부서를 찾지 못한 경우에 대한 예외 처리
+                throw new RuntimeException("부서를 찾을 수 없습니다: " + departmentName);
+            }
+            CameraDepartment cameraDepartment = new CameraDepartment();
+            cameraDepartment.setDepartment(department);
+            cameraDepartment.setCamera(camera); // 카메라 객체 설정
+            cameraDepartments.add(cameraDepartment);
         }
 
-        Camera camera = new Camera(cameraName, departmentList);
-        cameraRepository.save(camera);
+        camera.setCameraDepartments(cameraDepartments); // 카메라 객체에 카메라 부서 설정
+
+        cameraRepository.save(camera); // 카메라 저장
     }
 
     public void createPosition(List<String> positionsName) {

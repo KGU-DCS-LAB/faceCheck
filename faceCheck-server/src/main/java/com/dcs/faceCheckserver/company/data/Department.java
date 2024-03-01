@@ -3,6 +3,8 @@ package com.dcs.faceCheckserver.company.data;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Embeddable
 @Entity(name = "department")
 @Getter
@@ -18,8 +20,8 @@ public class Department {
 
     private String department;
 
-    @ManyToOne
-    private Camera camera;
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CameraDepartment> cameraDepartments; //출입 가능 카메라
 
     public Department(String department) {
         this.department = department;
