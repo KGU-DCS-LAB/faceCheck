@@ -25,7 +25,6 @@ public class EmployeeController {
     //정보 입력 후 승인 요청
     @RequestMapping(value = "/approve/{employeeId}", method = RequestMethod.POST)
     public ResponseEntity<String> approveEmployee(@PathVariable String employeeId, @RequestBody ApproveEmployeeRequestDTO approveEmployeeRequestDTO) {
-        employeeService.approveEmployee(employeeId, approveEmployeeRequestDTO);
-        return ResponseEntity.ok("성공적으로 승인 요청되었습니다.");
+        return employeeService.approveEmployee(employeeId, approveEmployeeRequestDTO);
     }
 }
