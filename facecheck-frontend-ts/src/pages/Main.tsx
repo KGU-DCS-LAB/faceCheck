@@ -1,8 +1,8 @@
 import React from "react";
 import Grid from "@mui/material/Grid";
 
-import LogoImage from "../src/assets/logo.png";
-import MainImage from "../src/assets/main.png";
+import LogoImage from "../assets/logo.png";
+import MainImage from "../assets/main.png";
 
 const Home = () => {
     return (
