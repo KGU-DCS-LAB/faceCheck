@@ -113,4 +113,32 @@ public class CompanyService {
         position.setPosition(updatePositionName);
         positionRepository.save(position);
     }
+
+    public void updateCamera(String originalCameraName, String updateCameraName, List<String> changeDepartmentNames) {
+        Camera camera = cameraRepository.findByName(originalCameraName);
+
+        // 카메라가 존재하지 않는 경우 에러 처리
+        if (camera == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "카메라를 찾을 수 없습니다: " + originalCameraName);
+        }
+
+        // 수정된 카메라 이름으로 업데이트합니다.
+        camera.setName(updateCameraName);
+
+        // 기존의 카메라 부서를 모두 삭제합니다.
+        camera.getCameraDepartments().clear();
+
+        // 변경된 부서에 대한 새로운 카메라 부서를 추가합니다.
+        for (String changeDepartmentName : changeDepartmentNames) {
+            CameraDepartment newCameraDepartment = new CameraDepartment();
+            newCameraDepartment.setCamera(camera);
+            Department department = departmentRepository.findByDepartment(changeDepartmentName);
+            newCameraDepartment.setDepartment(department);
+            camera.getCameraDepartments().add(newCameraDepartment);
+        }
+
+        // 수정된 부서로 업데이트합니다.
+        cameraRepository.save(camera);
+    }
+
 }

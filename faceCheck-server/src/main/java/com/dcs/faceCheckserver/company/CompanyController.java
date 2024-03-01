@@ -3,6 +3,8 @@ package com.dcs.faceCheckserver.company;
 import com.dcs.faceCheckserver.company.dto.AllCompaniesDTO;
 import com.dcs.faceCheckserver.company.dto.CreateCameraRequestDTO;
 import com.dcs.faceCheckserver.company.dto.UpdateRequestDTO;
+import com.dcs.faceCheckserver.company.repository.CameraDepartmentRepository;
+import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +17,13 @@ import java.util.Map;
 public class CompanyController {
 
     private final CompanyService companyService;
+    private final CameraDepartmentRepository cameraDepartmentRepository;
+    private final CameraRepository cameraRepository;
 
-    public CompanyController(CompanyService companyService) {
+    public CompanyController(CompanyService companyService, CameraDepartmentRepository cameraDepartmentRepository, CameraRepository cameraRepository) {
         this.companyService = companyService;
+        this.cameraDepartmentRepository = cameraDepartmentRepository;
+        this.cameraRepository = cameraRepository;
     }
 
     //회사 정보 전체 조회
@@ -69,5 +75,20 @@ public class CompanyController {
         String updatePositionName = updatePositionRequestDTO.getChangeName();
         companyService.updatePosition(originalPositionName, updatePositionName);
         return ResponseEntity.ok("직급이 성공적으로 수정되었습니다.");
+    }
+
+    //카메라 수정
+    @RequestMapping(value = "/camera/update", method = RequestMethod.PATCH)
+    public ResponseEntity<String> updateCamera(@RequestBody UpdateRequestDTO updateCameraDTO) {
+        String originalCameraName = updateCameraDTO.getName();
+        String updateCameraName = updateCameraDTO.getChangeName() != null ? updateCameraDTO.getChangeName() : updateCameraDTO.getName();
+        List<String> changeDepartmentNames = updateCameraDTO.getChangeDepartment();
+        companyService.updateCamera(originalCameraName, updateCameraName, changeDepartmentNames);
+        return ResponseEntity.ok("얼굴 인식 카메라가 성공적으로 수정되었습니다.");
+    }
+
+    @RequestMapping(value = "/dd", method = RequestMethod.PATCH)
+    public void dd() {
+        cameraRepository.deleteAll();
     }
 }
