@@ -21,4 +21,8 @@ public class Position {
 
     @OneToMany
     private List<Employee> employees;
+
+    public Position(String position) {
+        this.position = position;
+    }
 }

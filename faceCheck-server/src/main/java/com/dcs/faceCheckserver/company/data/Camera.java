@@ -1,7 +1,6 @@
 package com.dcs.faceCheckserver.company.data;
 
 import com.dcs.faceCheckserver.employee.data.CameraEmployee;
-import com.dcs.faceCheckserver.employee.data.Employee;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import jakarta.persistence.*;
 import lombok.*;
