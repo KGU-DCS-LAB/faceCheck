@@ -100,4 +100,17 @@ public class CompanyService {
         department.setDepartment(updatedDepartmentName);
         departmentRepository.save(department);
     }
+
+    public void updatePosition(String originalPositionName, String updatePositionName) {
+        Position position = positionRepository.findByPosition(originalPositionName);
+
+        // 직급이 존재하지 않는 경우 에러 처리
+        if (position == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "직급을 찾을 수 없습니다: " + originalPositionName);
+        }
+
+        // 수정된 직급 이름으로 업데이트합니다.
+        position.setPosition(updatePositionName);
+        positionRepository.save(position);
+    }
 }
