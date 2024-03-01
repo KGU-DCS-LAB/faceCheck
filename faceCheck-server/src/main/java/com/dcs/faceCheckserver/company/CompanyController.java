@@ -3,8 +3,6 @@ package com.dcs.faceCheckserver.company;
 import com.dcs.faceCheckserver.company.dto.AllCompaniesDTO;
 import com.dcs.faceCheckserver.company.dto.CreateCameraRequestDTO;
 import com.dcs.faceCheckserver.company.dto.UpdateRequestDTO;
-import com.dcs.faceCheckserver.company.repository.CameraDepartmentRepository;
-import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +15,9 @@ import java.util.Map;
 public class CompanyController {
 
     private final CompanyService companyService;
-    private final CameraDepartmentRepository cameraDepartmentRepository;
-    private final CameraRepository cameraRepository;
 
-    public CompanyController(CompanyService companyService, CameraDepartmentRepository cameraDepartmentRepository, CameraRepository cameraRepository) {
+    public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
-        this.cameraDepartmentRepository = cameraDepartmentRepository;
-        this.cameraRepository = cameraRepository;
     }
 
     //회사 정보 전체 조회
@@ -87,8 +81,24 @@ public class CompanyController {
         return ResponseEntity.ok("얼굴 인식 카메라가 성공적으로 수정되었습니다.");
     }
 
-    @RequestMapping(value = "/dd", method = RequestMethod.PATCH)
-    public void dd() {
-        cameraRepository.deleteAll();
+    //부서 삭제
+    @RequestMapping(value = "/department", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteDepartment(@RequestBody Map<String, String> department) {
+        companyService.deleteDepartment(department.get("department"));
+        return ResponseEntity.ok("부서가 성공적으로 삭제되었습니다.");
+    }
+
+    //직급 삭제
+    @RequestMapping(value = "/position", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deletePosition(@RequestBody Map<String, String> position) {
+        companyService.deletePosition(position.get("position"));
+        return ResponseEntity.ok("직급이 성공적으로 삭제되었습니다.");
+    }
+
+    //카메라 삭제
+    @RequestMapping(value = "/camera", method = RequestMethod.DELETE)
+    public ResponseEntity<String> deleteCamera(@RequestBody Map<String, String> camera) {
+        companyService.deleteCamera(camera.get("camera"));
+        return ResponseEntity.ok("얼굴 인식 카메라가 성공적으로 삭제되었습니다.");
     }
 }
