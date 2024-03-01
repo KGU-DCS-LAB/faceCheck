@@ -12,7 +12,7 @@ import Login from "./pages/Login";
 import AccessManagement from "./pages/AccessManagement";
 import SystemManagement from "./pages/system-management/SystemManagement";
 import VisitorManagement from "./pages/visitor-management/VisitorManagement";
-import MyPage from "./pages/mypage/Mypage";
+import MyPage from "./pages/Mypage"
 import Sidebar from "./components/Sidebar";
 import "./App.css";
 import EmployeeAccessRecord from "./pages/system-management/EmployeeAccessRecord";
@@ -24,11 +24,11 @@ import VisitorRegister from "./pages/visitor-management/VisitorReigster";
 import VisitorList from "./pages/visitor-management/VisitorList";
 import EmployeeList from "./pages/visitor-management/EmployeeList";
 import SignUp from "./pages/SignUp";
-import CompanyInfoRegister from "./pages/system-management/CompanyInfoRegister";
-import CameraRegister from "./pages/system-management/CameraRegister";
-import CompanyList from "./pages/system-management/CompanyList";
-import VisitorRequest from "./pages/visitor-management/VisitorRequest";
-import EmployeeRequest from "./pages/visitor-management/EmployeeRequest";
+// import CompanyInfoRegister from "./pages/system-management/CompanyInfoRegister";
+// import CameraRegister from "./pages/system-management/CameraRegister";
+// import CompanyList from "./pages/system-management/CompanyList";
+// import VisitorRequest from "./pages/visitor-management/VisitorRequest";
+// import EmployeeRequest from "./pages/visitor-management/EmployeeRequest";
 
 function LocationAwareComponent() {
   const location = useLocation();
@@ -71,18 +71,18 @@ function App() {
                   path="facialRecognition/list"
                   element={<FacialRecognitionList />}
                 />
-                <Route
-                  path="companyInformation/enter"
-                  element={<CompanyInfoRegister />}
-                />
-                <Route
-                  path="companyInformation/camera"
-                  element={<CameraRegister />}
-                />
-                <Route
-                  path="companyInformation/companyList"
-                  element={<CompanyList />}
-                />
+                {/*<Route*/}
+                {/*  path="companyInformation/enter"*/}
+                {/*  element={<CompanyInfoRegister />}*/}
+                {/*/>*/}
+                {/*<Route*/}
+                {/*  path="companyInformation/camera"*/}
+                {/*  element={<CameraRegister />}*/}
+                {/*/>*/}
+                {/*<Route*/}
+                {/*  path="companyInformation/companyList"*/}
+                {/*  element={<CompanyList />}*/}
+                {/*/>*/}
                 <Route element={<Outlet />} />{" "}
               </Route>
 
@@ -94,8 +94,8 @@ function App() {
                 <Route path="visitor/register" element={<VisitorRegister />} />
                 <Route path="employee/list" element={<EmployeeList />} />
                 <Route path="visitor/list" element={<VisitorList />} />
-                <Route path="visitor/request" element={<VisitorRequest />} />
-                <Route path="employee/request" element={<EmployeeRequest />} />
+                {/*<Route path="visitor/request" element={<VisitorRequest />} />*/}
+                {/*<Route path="employee/request" element={<EmployeeRequest />} />*/}
                 <Route element={<Outlet />} />
               </Route>
             </Routes>
