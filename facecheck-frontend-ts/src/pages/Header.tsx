@@ -9,7 +9,7 @@ import {
     useMediaQuery,
     useTheme,
 } from "@mui/material";
-import LogoImage from "../src/assets/logo.png";
+import LogoImage from "../assets/logo.png";
 import { Link } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
