@@ -5,11 +5,11 @@ import Axios, {AxiosResponse} from "axios";
 
 const EmployeeRegister:React.FC = () => {
 
-    const [Name, SetName] = useState<String>("");
+    const [Name, setName] = useState<String>("");
     const [Id, setId] = useState<String>("");
 
     const onNameChange = (e:React.ChangeEvent<HTMLInputElement>) => {
-        SetName(e.target.value);
+        setName(e.target.value);
     };
 
     const onIdChange = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -45,7 +45,9 @@ const EmployeeRegister:React.FC = () => {
         Axios.post("/auth/signup", variables).then((response: AxiosResponse<String>)=> {
             if(response.data) {
                 console.log(response.data);
-                alert("직원이 성공적으로 등록되었습니다.");
+                setName("");
+                setId("");
+                alert("성공적으로 등록되었습니다.");
             } else {
                 alert("직원 등록에 실패했습니다.");
             }
