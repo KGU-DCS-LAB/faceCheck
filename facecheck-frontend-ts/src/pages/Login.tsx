@@ -14,9 +14,12 @@ import WelcomeToFacecheckImage from "../assets/welcomeToFacecheck.png";
 import "../style.css";
 import React, {useState} from "react";
 import Axios, {AxiosResponse} from "axios";
+import {useNavigate} from "react-router-dom";
 
 // export default function Login() {
 const Login: React.FC = () => {
+
+    const navigate = useNavigate();
 
     const [Id, setId] = useState<String>("");
     const [Password, setPassword] = useState<String>("");
@@ -54,6 +57,7 @@ const Login: React.FC = () => {
             if(response.data) {
                 console.log(response.data);
                 alert("로그인에 성공했습니다.");
+                navigate("/");
             } else {
                 alert("로그인에 실패했습니다.");
             }
