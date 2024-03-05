@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import Grid from "@mui/material/Grid";
 import {Box, Button, InputLabel, TextField, Typography} from "@mui/material";
 import Axios, {AxiosResponse} from "axios";
+import Swal from "sweetalert2";
 
 const EmployeeRegister:React.FC = () => {
 
@@ -44,12 +45,22 @@ const EmployeeRegister:React.FC = () => {
 
         Axios.post("/auth/signup", variables).then((response: AxiosResponse<String>)=> {
             if(response.data) {
+                Swal.fire({
+                    icon: "success",
+                    title: "직원 등록 성공",
+                    text: "직원이 성공적으로 등록되었습니다.",
+                });
                 console.log(response.data);
-                setName("");
+                setName("");    //텍스트 필드 초기화
                 setId("");
-                alert("성공적으로 등록되었습니다.");
+                //alert("성공적으로 등록되었습니다.");
             } else {
-                alert("직원 등록에 실패했습니다.");
+                //alert("직원 등록에 실패했습니다.");
+                Swal.fire({
+                    icon: "error",
+                    title: "직원 등록 실패",
+                    text: "직원 등록에 실패했습니다.",
+                });
             }
         })
     }
