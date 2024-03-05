@@ -11,6 +11,7 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/image")
+@CrossOrigin("*")
 public class ImageController {
     private final ImageService imageService;
 
@@ -25,11 +26,9 @@ public class ImageController {
         }
     }
 
-    // 이미지 출력 (이미지 경로 반환)
-//    @RequestMapping(value = "/{imageId}", method = RequestMethod.POST)
-//    public String readImage(@PathVariable String imageId){
-//        Long imageIdLong = Long.parseLong(imageId);
-//        System.out.println(imageService.findByImageId(imageId).getSavedPath());
-//        return imageService.findByImageId(imageId).getSavedPath();
-//    }
+    // 이미지 출력
+    @RequestMapping(value = "/{imageId}", method = RequestMethod.GET)
+    public ResponseEntity<byte[]> getImage(@PathVariable("imageId") Long imageId) {
+        return imageService.getImage(imageId);
+    }
 }
