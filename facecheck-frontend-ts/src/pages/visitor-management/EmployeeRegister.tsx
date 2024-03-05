@@ -35,6 +35,15 @@ const EmployeeRegister:React.FC = () => {
     const onClick = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
+        if (Name.trim() === "" || Id.trim() === "") {
+            Swal.fire({
+                icon: "error",
+                title: "입력 오류",
+                text: "이름과 번호를 모두 입력하세요.",
+            });
+            return;
+        }
+
         const variables = {
             name: Name,
             memberId: Id,
