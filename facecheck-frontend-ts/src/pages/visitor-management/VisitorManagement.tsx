@@ -5,7 +5,7 @@ import {Box, Typography} from "@mui/material";
 
 const VisitorManagement:React.FC = () => {
     return (
-        <div style={{ marginLeft: "250px" }}>
+        <div style={{ marginLeft: "250px", borderLeft: "1px solid rgba(0, 0, 0, 0.12)"}}>
             <Box>
                 <div
                     style={{

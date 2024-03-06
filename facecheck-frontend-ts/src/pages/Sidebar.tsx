@@ -128,6 +128,7 @@ const Sidebar: React.FC = () => {
                 width: drawerWidth,
                 flexShrink: 0,
                 [`& .MuiDrawer-paper`]: {
+                    position: "absolute",
                     width: drawerWidth,
                     marginTop: "105px",
                     backdropFilter: isBlurred ? "blur(5px)" : "none",
