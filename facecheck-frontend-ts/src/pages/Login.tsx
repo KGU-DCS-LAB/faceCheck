@@ -156,7 +156,7 @@ const Login: React.FC = () => {
                                         value={Role}    //현재 선택된 값으로 설정
                                     >
                                         <FormControlLabel value="ROLE_ADMIN" control={<Radio />} label="관리자" />
-                                        <FormControlLabel value="ROLE_EMPLOYE" control={<Radio />} label="직원" />
+                                        <FormControlLabel value="ROLE_EMPLOYEE" control={<Radio />} label="직원" />
                                         <FormControlLabel value="ROLE_VISITOR" control={<Radio />} label="방문자" />
                                     </RadioGroup>
 
