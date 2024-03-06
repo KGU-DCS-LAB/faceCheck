@@ -15,6 +15,7 @@ import "../style.css";
 import React, {useState} from "react";
 import Axios, {AxiosResponse} from "axios";
 import {useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
 
 // export default function Login() {
 const Login: React.FC = () => {
@@ -48,14 +49,15 @@ const Login: React.FC = () => {
 
         interface LoginResponseType {
             // 응답 데이터의 구조를 정의합니다.
-            grantType : String,
-            accessToken : String,
+            grantType : string,
+            accessToken : string,
             tokenExpiresIn : BigInt,
         }
 
         Axios.post("/auth/login", variables).then((response: AxiosResponse<LoginResponseType>)=> {
             if(response.data) {
                 console.log(response.data);
+                Cookies.set("accessToken", response.data.accessToken);  //쿠키에 accessToken 저장
                 alert("로그인에 성공했습니다.");
                 navigate("/");
             } else {
