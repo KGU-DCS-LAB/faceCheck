@@ -10,8 +10,8 @@ import {
     useTheme,
 } from "@mui/material";
 import LogoImage from "../assets/logo.png";
-import { Link } from "react-router-dom";
-import { useCookies } from "react-cookie";
+import {Link, useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
 
 const pages = [
     { title: "출입관리시스템", link: "/access-management" },
@@ -21,13 +21,15 @@ const pages = [
 
 function Header() {
 
+    const navigate = useNavigate();
+
     const theme = useTheme();
     const isMdScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-    const [cookies, setCookie, removeCookie] = useCookies(["userId"])
 
     const handleLogout = () => {
-        removeCookie("userId")
+        Cookies.remove("accessToken");
+        navigate("/");
     };
 
     return (
@@ -84,7 +86,7 @@ function Header() {
                     </Box>
 
                     <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
-                        {cookies.userId ? (     //userId 쿠키가 존재하면 마이페이지 버튼 표시
+                        {Cookies.get("accessToken") ? (     //accessToken 쿠키가 존재하면 마이페이지 버튼 표시
                             <Button
                                color="inherit"
                                component={Link}
@@ -99,9 +101,9 @@ function Header() {
                                    marginRight: 1,
                                }}
                             >
-                                {cookies.userId} 님
+                                마이페이지
                             </Button>
-                        ) : (       //userId 쿠키가 존재하지 않으면 로그인 버튼 표시
+                        ) : (       //accessToken 쿠키가 존재하지 않으면 로그인 버튼 표시
                             <Button
                                 color="inherit"
                                 component={Link}
@@ -118,7 +120,7 @@ function Header() {
                                 로그인
                             </Button>
                         )}
-                        {cookies.userId && (
+                        {Cookies.get("accessToken") && (
                             <Button
                                 color="inherit"
                                 onClick={handleLogout}
