@@ -65,7 +65,7 @@ const Login: React.FC = () => {
             if(response.data) {
                 console.log(response.data);
                 Cookies.set("accessToken", response.data.accessToken);  //쿠키에 accessToken 저장
-                Cookies.set("Role", variables.authority);
+                Cookies.set("Role", variables.authority);                  //쿠키에 Role 저장
                 alert("로그인에 성공했습니다.");
                 navigate("/");
             } else {
