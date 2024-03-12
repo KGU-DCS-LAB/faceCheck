@@ -8,8 +8,9 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    FormLabel,
+    FormLabel, Alert,
 } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
 import WelcomeToFacecheckImage from "../assets/welcomeToFacecheck.png";
 import "../style.css";
 import React, {useState} from "react";
@@ -121,6 +122,9 @@ const Login: React.FC = () => {
                                 Login
                             </Typography>
                             <form>
+                                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" style={{marginTop: "8px"}}>
+                                    초기 아이디, 비밀번호는 사번(방문번호)입니다.
+                                </Alert>
                                 <TextField
                                     id="standard-basic"
                                     label="ID"
@@ -144,7 +148,7 @@ const Login: React.FC = () => {
                                     value={Password}
                                 />
 
-                                <TextField sx={{ visibility: "hidden" }} />
+                                <TextField sx={{ visibility: "hidden" }} style={{ height: "4px" }}/>
 
                                 <div>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Role</FormLabel>
@@ -159,7 +163,6 @@ const Login: React.FC = () => {
                                         <FormControlLabel value="ROLE_EMPLOYEE" control={<Radio />} label="직원" />
                                         <FormControlLabel value="ROLE_VISITOR" control={<Radio />} label="방문자" />
                                     </RadioGroup>
-
                                 </div>
 
                                 {/*<TextField sx={{ visibility: "hidden" }} />*/}
@@ -170,6 +173,7 @@ const Login: React.FC = () => {
                                         justifyContent: "flex-end",
                                         alignItems: "center",
                                         gap: "8px",
+                                        marginTop: "6px"
                                     }}
                                 >
                                     {/*<Link*/}
