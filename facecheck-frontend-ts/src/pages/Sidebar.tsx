@@ -6,6 +6,7 @@ import BusinessIcon from "@mui/icons-material/Business";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import GroupIcon from "@mui/icons-material/Group";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import HomeIcon from '@mui/icons-material/Home';
 import {Drawer, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -111,6 +112,40 @@ const Sidebar: React.FC = () => {
                             },
                         ],
                     },
+                ];
+            case path.startsWith("/employee-mypage") :
+                return [
+                    {
+                        text: "마이페이지",
+                        icon: <HomeIcon/>,
+                        subMenus: [
+                            {
+                                text: "직원 승인 요청",
+                                link: "/employee-mypage/request",
+                            },
+                            {
+                                text: "출입 기록 조회",
+                                link: "/employee-mypage/accessRecord",
+                            },
+                        ],
+                    }
+                ];
+            case path.startsWith("/visitor-mypage") :
+                return [
+                    {
+                        text: "마이페이지",
+                        icon: <HomeIcon/>,
+                        subMenus: [
+                            {
+                                text: "직원 승인 요청",
+                                link: "/visitor-mypage/request",
+                            },
+                            {
+                                text: "출입 기록 조회",
+                                link: "/visitor-mypage/accessRecord",
+                            },
+                        ],
+                    }
                 ];
             default:
                 return [];

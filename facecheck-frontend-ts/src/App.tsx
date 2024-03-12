@@ -12,12 +12,16 @@ import VisitorList from "./pages/visitor-management/VisitorList";
 import VisitorRequest from "./pages/visitor-management/VisitorRequest";
 import EmployeeRequest from "./pages/visitor-management/EmployeeRequest";
 import Sidebar from "./pages/Sidebar";
+import VisitorMypage from "./pages/visitor-mypage/VisitorMypage";
+import EmployeeMypage from "./pages/employee-mypage/EmployeeMypage";
 
 function LocationAwareComponent() {         //현재 페이지의 경로가 "/system-management" 또는 "/visitor-management"으로 시작하면 Sidebar 컴포넌트를 렌더링
     const location = useLocation();
     const isSystemManagementOrVisitorManagement =
         location.pathname.startsWith("/system-management") ||
-        location.pathname.startsWith("/visitor-management");
+        location.pathname.startsWith("/visitor-management") ||
+        location.pathname.startsWith("/visitor-mypage") ||
+        location.pathname.startsWith("/employee-mypage");
 
     return <div>{isSystemManagementOrVisitorManagement && <Sidebar />}</div>;
 }
@@ -43,8 +47,16 @@ function App() {
                             <Route path="employee/request" element={<EmployeeRequest />} />
                             {/*<Route element={<Outlet />} />*/}
                         </Route>
-                    </Routes>
 
+                        //직원 마이페이지
+                        <Route path="/employee-mypage" element={<EmployeeMypage />}>
+                        </Route>
+
+                        //방문자 마이페이지
+                        <Route path="/visitor-mypage" element={<VisitorMypage />}>
+                        </Route>
+
+                    </Routes>
                 </div>
             </div>
         </div>
