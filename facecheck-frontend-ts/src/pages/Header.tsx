@@ -26,6 +26,7 @@ function Header() {
     const theme = useTheme();
     const isMdScreen = useMediaQuery(theme.breakpoints.up('md'));
 
+    const role = Cookies.get("Role");
 
     const handleLogout = () => {
         Cookies.remove("accessToken");
@@ -85,26 +86,46 @@ function Header() {
                             </Typography>
                         ))}
                     </Box>
-
                     <Box sx={{ flexGrow: 0, marginLeft: 2 }}>
-                        {Cookies.get("accessToken") ? (     //accessToken 쿠키가 존재하면 마이페이지 버튼 표시
-                            <Button
-                               color="inherit"
-                               component={Link}
-                               to="/mypage"
-                               sx={{
-                                   backgroundColor: "gray",
-                                   "&:hover": {
-                                       backgroundColor: "darkgray",
-                                   },
-                                   fontFamily: "Noto Serif KR, serif",
-                                   textDecoration: "none",
-                                   marginRight: 1,
-                               }}
-                            >
-                                마이페이지
-                            </Button>
-                        ) : (       //accessToken 쿠키가 존재하지 않으면 로그인 버튼 표시
+                        {Cookies.get("accessToken") && (
+                            <>
+                                {role === "ROLE_ADMIN" ? null : (       //accessToken 쿠키가 존재하고 role이 "ROLE_ADMIN"가 아니면 마이페이지 버튼 표시
+                                    <Button
+                                        color="inherit"
+                                        component={Link}
+                                        to={role === "ROLE_EMPLOYEE" ? "/employee-mypage" : "/visitor-mypage"}
+                                        sx={{
+                                            backgroundColor: "gray",
+                                            "&:hover": {
+                                                backgroundColor: "darkgray",
+                                            },
+                                            fontFamily: "Noto Serif KR, serif",
+                                            textDecoration: "none",
+                                            marginRight: 1,
+                                        }}
+                                    >
+                                        마이페이지
+                                    </Button>
+                                )}
+                                <Button
+                                    color="inherit"
+                                    onClick={handleLogout}
+                                    component={Link}
+                                    to="/"
+                                    sx={{
+                                        backgroundColor: "gray",
+                                        "&:hover": {
+                                            backgroundColor: "darkgray",
+                                        },
+                                        fontFamily: "Noto Serif KR, serif",
+                                        textDecoration: "none",
+                                    }}
+                                >
+                                    로그아웃
+                                </Button>
+                            </>
+                        )}
+                        {!Cookies.get("accessToken") && (       //accessToken 쿠키가 존재하지 않으면 로그인 버튼 표시
                             <Button
                                 color="inherit"
                                 component={Link}
@@ -119,24 +140,6 @@ function Header() {
                                 }}
                             >
                                 로그인
-                            </Button>
-                        )}
-                        {Cookies.get("accessToken") && (
-                            <Button
-                                color="inherit"
-                                onClick={handleLogout}
-                                component={Link}
-                                to="/"
-                                sx={{
-                                    backgroundColor: "gray",
-                                    "&:hover": {
-                                        backgroundColor: "darkgray",
-                                    },
-                                    fontFamily: "Noto Serif KR, serif",
-                                    textDecoration: "none",
-                                }}
-                            >
-                                로그아웃
                             </Button>
                         )}
                     </Box>
