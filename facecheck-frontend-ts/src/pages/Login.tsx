@@ -23,9 +23,9 @@ const Login: React.FC = () => {
 
     const navigate = useNavigate();
 
-    const [Id, setId] = useState<String>("");
-    const [Password, setPassword] = useState<String>("");
-    const [Role, setRole] = useState<String>("");
+    const [Id, setId] = useState<string>("");
+    const [Password, setPassword] = useState<string>("");
+    const [Role, setRole] = useState<string>("");
 
     const onIdChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setId(e.target.value);
@@ -42,7 +42,13 @@ const Login: React.FC = () => {
     const onSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const variables = {
+        interface VariablesType {
+            memberId: string;
+            memberPassword: string;
+            authority: string;
+        }
+
+        const variables : VariablesType = {
             memberId: Id,
             memberPassword: Password,
             authority: Role,
@@ -59,6 +65,7 @@ const Login: React.FC = () => {
             if(response.data) {
                 console.log(response.data);
                 Cookies.set("accessToken", response.data.accessToken);  //쿠키에 accessToken 저장
+                Cookies.set("Role", variables.authority);
                 alert("로그인에 성공했습니다.");
                 navigate("/");
             } else {

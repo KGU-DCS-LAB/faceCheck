@@ -29,6 +29,7 @@ function Header() {
 
     const handleLogout = () => {
         Cookies.remove("accessToken");
+        Cookies.remove("Role")
         navigate("/");
     };
 
