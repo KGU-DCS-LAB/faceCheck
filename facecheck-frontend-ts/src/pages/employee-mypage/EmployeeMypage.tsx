@@ -1,11 +1,8 @@
 import React, {useState} from "react";
-import {Link, Outlet} from "react-router-dom";
 import SmallMainImage from "../../assets/smallMain.png";
-import {Box, Drawer, List, ListItem, ListItemIcon, ListItemText, Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 
 const EmployeeMypage:React.FC = () => {
-    const drawerWidth = 250;
-    const [isBlurred, setIsBlurred] = useState(false);
 
     return (
         <div style={{ marginLeft: "250px", borderLeft: "1px solid rgba(0, 0, 0, 0.12)"}}>
