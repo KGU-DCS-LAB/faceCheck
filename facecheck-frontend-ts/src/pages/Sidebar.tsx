@@ -121,7 +121,7 @@ const Sidebar: React.FC = () => {
                         subMenus: [
                             {
                                 text: "직원 승인 요청",
-                                link: "/employee-mypage/request",
+                                link: "/employee-mypage/employeeApprove",
                             },
                             {
                                 text: "출입 기록 조회",
@@ -138,7 +138,7 @@ const Sidebar: React.FC = () => {
                         subMenus: [
                             {
                                 text: "직원 승인 요청",
-                                link: "/visitor-mypage/request",
+                                link: "/visitor-mypage/visitorApprove",
                             },
                             {
                                 text: "출입 기록 조회",

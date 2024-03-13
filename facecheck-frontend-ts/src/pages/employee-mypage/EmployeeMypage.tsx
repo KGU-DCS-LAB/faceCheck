@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import SmallMainImage from "../../assets/smallMain.png";
 import {Box, Typography} from "@mui/material";
+import {Outlet} from "react-router-dom";
 
 const EmployeeMypage:React.FC = () => {
 
@@ -43,6 +44,8 @@ const EmployeeMypage:React.FC = () => {
                     </Typography>
                 </div>
             </Box>
+            {/*Outlet으로 부모 라우트의 컴포넌트에서 자식 라우트 컴포넌트의 위치를 지정*/}
+            <Outlet />
         </div>
     );
 };
