@@ -8,19 +8,24 @@ import {
     RadioGroup,
     FormControlLabel,
     Radio,
-    FormLabel,
+    FormLabel, Alert,
 } from "@mui/material";
+import CheckIcon from '@mui/icons-material/Check';
 import WelcomeToFacecheckImage from "../assets/welcomeToFacecheck.png";
 import "../style.css";
 import React, {useState} from "react";
 import Axios, {AxiosResponse} from "axios";
+import {useNavigate} from "react-router-dom";
+import Cookies from "js-cookie";
 
 // export default function Login() {
 const Login: React.FC = () => {
 
-    const [Id, setId] = useState<String>("");
-    const [Password, setPassword] = useState<String>("");
-    const [Role, setRole] = useState<String>("");
+    const navigate = useNavigate();
+
+    const [Id, setId] = useState<string>("");
+    const [Password, setPassword] = useState<string>("");
+    const [Role, setRole] = useState<string>("");
 
     const onIdChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setId(e.target.value);
@@ -37,7 +42,13 @@ const Login: React.FC = () => {
     const onSubmit = (e:React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
-        const variables = {
+        interface VariablesType {
+            memberId: string;
+            memberPassword: string;
+            authority: string;
+        }
+
+        const variables : VariablesType = {
             memberId: Id,
             memberPassword: Password,
             authority: Role,
@@ -45,15 +56,19 @@ const Login: React.FC = () => {
 
         interface LoginResponseType {
             // 응답 데이터의 구조를 정의합니다.
-            grantType : String,
-            accessToken : String,
+            grantType : string,
+            accessToken : string,
             tokenExpiresIn : BigInt,
         }
 
         Axios.post("/auth/login", variables).then((response: AxiosResponse<LoginResponseType>)=> {
             if(response.data) {
                 console.log(response.data);
+                Cookies.set("accessToken", response.data.accessToken);  //쿠키에 accessToken 저장
+                Cookies.set("Role", variables.authority);                  //쿠키에 Role 저장
+                Cookies.set("ID", Id);                                  //쿠키에 Id 저장
                 alert("로그인에 성공했습니다.");
+                navigate("/");
             } else {
                 alert("로그인에 실패했습니다.");
             }
@@ -115,6 +130,9 @@ const Login: React.FC = () => {
                                 Login
                             </Typography>
                             <form>
+                                <Alert icon={<CheckIcon fontSize="inherit" />} severity="success" style={{marginTop: "8px"}}>
+                                    초기 아이디, 비밀번호는 사번(방문번호)입니다.
+                                </Alert>
                                 <TextField
                                     id="standard-basic"
                                     label="ID"
@@ -138,7 +156,7 @@ const Login: React.FC = () => {
                                     value={Password}
                                 />
 
-                                <TextField sx={{ visibility: "hidden" }} />
+                                <TextField sx={{ visibility: "hidden" }} style={{ height: "4px" }}/>
 
                                 <div>
                                     <FormLabel id="demo-row-radio-buttons-group-label">Role</FormLabel>
@@ -150,10 +168,9 @@ const Login: React.FC = () => {
                                         value={Role}    //현재 선택된 값으로 설정
                                     >
                                         <FormControlLabel value="ROLE_ADMIN" control={<Radio />} label="관리자" />
-                                        <FormControlLabel value="ROLE_EMPLOYE" control={<Radio />} label="직원" />
+                                        <FormControlLabel value="ROLE_EMPLOYEE" control={<Radio />} label="직원" />
                                         <FormControlLabel value="ROLE_VISITOR" control={<Radio />} label="방문자" />
                                     </RadioGroup>
-
                                 </div>
 
                                 {/*<TextField sx={{ visibility: "hidden" }} />*/}
@@ -164,6 +181,7 @@ const Login: React.FC = () => {
                                         justifyContent: "flex-end",
                                         alignItems: "center",
                                         gap: "8px",
+                                        marginTop: "6px"
                                     }}
                                 >
                                     {/*<Link*/}
