@@ -38,6 +38,10 @@ public class EmployeeService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("직원을 찾을 수 없습니다: " + employeeId);
         }
 
+        if (!employee.getState().equals("요청전")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 승인 요청이 되었습니다: " + employeeId);
+        }
+
 
         Department department = departmentRepository.findByDepartment(approveEmployeeRequestDTO.getDepartment());
         if (department == null) {
