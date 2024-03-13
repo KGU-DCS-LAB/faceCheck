@@ -40,30 +40,30 @@ const EmployeeApprove:React.FC = () => {
                 name: name,
                 department: department,
                 position: position,
-                mainImageURL: "",
-                imagesURL: ["","",""],
+                // mainImageURL: "",
+                // imagesURL: ["","",""],
             };
 
-        //비밀번호 받아오는거 다시해야됨
             Axios.post(`/employee/approve/${Id}`, variables, {
-                        headers: {
-                            "Authorization": `Bearer ${Cookies.get("accessToken")}`,
-                            "Content-Type": "application/json",
-                        },
-                    }).then((response: AxiosResponse<String>)=> {
-                if(response.data) {
-                    console.log(response.data);
-                    Swal.fire({
-                        icon: "success",
-                        title: "직원 등록 성공",
-                        text: "직원이 성공적으로 등록되었습니다.",
-                    });
-                    console.log(response.data);
-                } else {
+                headers: {
+                        "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                        "Content-Type": "application/json",
+                    },
+                }).then((response: AxiosResponse<String>) => {
+                    if(response.status === 200) {
+                        console.log(response.data);
+                        Swal.fire({
+                            icon: "success",
+                            title: "직원 승인 요청 성공",
+                            text: "성공적으로 승인 요청되었습니다.",
+                        });
+                    }
+            }).catch((error: any) => {
+                if(error.response.status === 400) {
                     Swal.fire({
                         icon: "error",
-                        title: "직원 등록 실패",
-                        text: "직원 등록에 실패했습니다.",
+                        title: "직원 승인 요청 실패",
+                        text: error.response.data,
                     });
                 }
             })
