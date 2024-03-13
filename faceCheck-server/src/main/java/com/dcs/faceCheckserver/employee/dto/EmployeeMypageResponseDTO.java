@@ -10,5 +10,7 @@ public class EmployeeMypageResponseDTO {
     private String number;
     private String department;
     private String position;
-    private List<RecordResponseDTO> record;
+//    private String mainImage;
+//    private List<String> openFaceImages;
+//    private List<RecordResponseDTO> record;
 }
