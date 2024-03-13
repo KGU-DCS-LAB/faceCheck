@@ -9,6 +9,6 @@ public class ApproveEmployeeRequestDTO {
     private String name;
     private String department;
     private String position;
-    private String mainImageURL;
-    private List<String> imagesURL;
+    private String mainImageId;
+    private List<String> openFaceImageId;
 }

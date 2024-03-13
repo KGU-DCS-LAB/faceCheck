@@ -3,8 +3,11 @@ package com.dcs.faceCheckserver.employee.data;
 import com.dcs.faceCheckserver.auth.entity.Authority;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.data.Position;
+import com.dcs.faceCheckserver.image.Image;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity(name = "employee")
 @Getter
@@ -34,6 +37,12 @@ public class Employee {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    @OneToOne
+    private Image mainImage; //메인 이미지
+
+    @OneToMany
+    private List<Image> openFaceImage; //openface 학습용 이미지
 
     @Builder
     public Employee(String name, String employeeId, String employeePassword, String number, Authority authority, String state) {
