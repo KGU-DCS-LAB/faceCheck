@@ -1,18 +1,18 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
-    Box,
-    Button,
-    InputLabel, Paper, styled,
+    Button, Paper,
     Table, TableBody, TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    TextField,
     Typography
 } from "@mui/material";
-import Grid from "@mui/material/Grid";
+import Axios from "axios";
+import Cookies from "js-cookie";
 
 const EmployeeRequest:React.FC = () => {
+
+    const [pendingEmployee, setPendingEmployee] = useState([]);
 
     const titleStyle = {
         fontWeight: "bold",
@@ -22,39 +22,33 @@ const EmployeeRequest:React.FC = () => {
 
     const marginStyle = {
         margin: "50px",
-        //OverflowY: "scroll", // 스크롤을 허용하는 스타일 추가
-        //maxHeight: "calc(100vh - 200px)" // 스크롤 영역의 최대 높이 설정 (원하는 높이로 조절)
     };
 
-    function createData(
-        name: string,
-        calories: number,
-        fat: number,
-        carbs: number,
-    ) {
-        return { name, calories, fat, carbs};
-    }
+    useEffect(() => {
+        Axios.get('/admin/employee/approve', {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                "Content-Type": "application/json",
+            },
+        })
+            .then(response => {
+                if(response.data) {
+                    console.log(response.data)
+                    setPendingEmployee(response.data)
+                }else{
+                    alert('직원 정보 가져오기를 실패했습니다.')
+                }
+            })
+    }, [])
 
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24),
-        createData('Ice cream sandwich', 237, 9.0, 37),
-        createData('Eclair', 262, 16.0, 24),
-        createData('Cupcake', 305, 3.7, 67),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-        createData('Gingerbread', 356, 16.0, 49),
-    ];
+    interface employeeType {
+        name: string;
+        camera: Array<String>;
+        department: string;
+        position: string;
+        number: string;
+        imageURL: string;
+    }
 
     return (
         <div>
@@ -71,19 +65,23 @@ const EmployeeRequest:React.FC = () => {
                                 <TableCell align="right">사번</TableCell>
                                 <TableCell align="right">부서</TableCell>
                                 <TableCell align="right">직급</TableCell>
+                                <TableCell align="right">출입가능카메라</TableCell>
+                                <TableCell align="right">직원이미지url</TableCell>
                                 <TableCell align="right">승인</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
+                            {pendingEmployee.map((employee : employeeType, index) => (
                                 <TableRow
-                                    key={row.name}
+                                    key={index}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
-                                    <TableCell component="th" scope="row">{row.name}</TableCell>
-                                    <TableCell align="right">{row.calories}</TableCell>
-                                    <TableCell align="right">{row.fat}</TableCell>
-                                    <TableCell align="right">{row.carbs}</TableCell>
+                                    <TableCell component="th" scope="row">{employee.name}</TableCell>
+                                    <TableCell align="right">{employee.number}</TableCell>
+                                    <TableCell align="right">{employee.department}</TableCell>
+                                    <TableCell align="right">{employee.position}</TableCell>
+                                    <TableCell align="right">{employee.camera}</TableCell>
+                                    <TableCell align="right">{employee.imageURL}</TableCell>
                                     <TableCell align="right">
                                     <Button
                                         variant="contained"
