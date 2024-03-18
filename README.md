@@ -33,3 +33,7 @@
 
 ## 🧩 Demo and Screenshots
 
+<img width="1439" alt="스크린샷 2024-03-19 오전 12 30 46" src="https://github.com/KGU-DCS-LAB/faceCheck/assets/90389593/2c9f350a-e0fa-40d5-aaa6-7e44cdb85881"><br/><br/>
+<img width="1440" alt="스크린샷 2024-03-19 오전 12 31 04" src="https://github.com/KGU-DCS-LAB/faceCheck/assets/90389593/e27093d5-3be9-4b59-8dd2-df986ab777ce"><br/><br/>
+
+
