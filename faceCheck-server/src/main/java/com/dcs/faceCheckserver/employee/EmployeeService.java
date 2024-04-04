@@ -7,6 +7,7 @@ import com.dcs.faceCheckserver.company.repository.PositionRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
 import com.dcs.faceCheckserver.employee.dto.ApproveEmployeeRequestDTO;
 import com.dcs.faceCheckserver.employee.dto.EmployeeMypageResponseDTO;
+import com.dcs.faceCheckserver.employee.dto.UpdateEmployeeIdDTO;
 import com.dcs.faceCheckserver.image.Image;
 import com.dcs.faceCheckserver.image.ImageRepository;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
@@ -85,5 +87,28 @@ public class EmployeeService {
 //        employeeMypageResponseDTO.getRecord()
 
         return employeeMypageResponseDTO;
+    }
+
+    public ResponseEntity<String> updateEmployeeId(String employeeId, UpdateEmployeeIdDTO updateEmployeeIdDTO) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new RuntimeException(employeeId + "에 대한 직원을 찾을 수 없습니다."));
+
+        String exEmployeeId = updateEmployeeIdDTO.getExEmployeeId();
+
+        // 새로운 직원 아이디가 이미 사용 중인지 확인
+        Optional<Employee> existingEmployee = employeeRepository.findByEmployeeId(exEmployeeId);
+        if (existingEmployee.isPresent()) {
+            // 이미 사용 중인 경우
+            return ResponseEntity.badRequest().body("이미 사용 중인 아이디입니다.");
+        }
+
+        // 새로운 직원 아이디로 변경
+        employee.setEmployeeId(exEmployeeId);
+
+        // 변경된 직원 정보 저장
+        employeeRepository.save(employee);
+
+        // 성공적으로 변경되었다는 응답 반환
+        return ResponseEntity.ok("아이디가 성공적으로 변경되었습니다.");
     }
 }

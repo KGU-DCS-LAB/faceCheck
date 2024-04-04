@@ -2,6 +2,7 @@ package com.dcs.faceCheckserver.employee;
 
 import com.dcs.faceCheckserver.employee.dto.ApproveEmployeeRequestDTO;
 import com.dcs.faceCheckserver.employee.dto.EmployeeMypageResponseDTO;
+import com.dcs.faceCheckserver.employee.dto.UpdateEmployeeIdDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,5 +28,11 @@ public class EmployeeController {
     @RequestMapping(value = "/approve/{employeeId}", method = RequestMethod.POST)
     public ResponseEntity<String> approveEmployee(@PathVariable String employeeId, @RequestBody ApproveEmployeeRequestDTO approveEmployeeRequestDTO) {
         return employeeService.approveEmployee(employeeId, approveEmployeeRequestDTO);
+    }
+
+    //아이디 변경
+    @RequestMapping(value = "/{employeeId}", method = RequestMethod.PATCH)
+    public ResponseEntity<String> updateEmployeeId(@PathVariable String employeeId, @RequestBody UpdateEmployeeIdDTO updateEmployeeIdDTO) {
+        return employeeService.updateEmployeeId(employeeId, updateEmployeeIdDTO);
     }
 }
