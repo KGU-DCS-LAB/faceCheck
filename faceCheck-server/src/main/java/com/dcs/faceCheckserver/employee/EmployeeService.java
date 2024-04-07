@@ -59,10 +59,10 @@ public class EmployeeService {
         employee.setPosition(position);
         employee.setState("요청");
 
-        Image mainImage = imageRepository.findByImageId(Long.valueOf(approveEmployeeRequestDTO.getMainImageId()));
+        Image mainImage = imageRepository.findByImageId(approveEmployeeRequestDTO.getMainImageId());
         List<Image> openFaceImage = new ArrayList<>();
-        for (String id: approveEmployeeRequestDTO.getOpenFaceImageId()) {
-            openFaceImage.add(imageRepository.findByImageId(Long.valueOf(id)));
+        for (Long id: approveEmployeeRequestDTO.getOpenFaceImageId()) {
+            openFaceImage.add(imageRepository.findByImageId(id));
         }
 
         employee.setMainImage(mainImage);
