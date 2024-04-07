@@ -1,5 +1,5 @@
 import React from "react";
-import Dropzone, {useDropzone} from "react-dropzone";
+import Dropzone from "react-dropzone";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import {Box, Typography} from "@mui/material";
 import Axios, {AxiosResponse} from "axios";
