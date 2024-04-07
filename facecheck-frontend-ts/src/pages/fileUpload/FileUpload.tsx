@@ -6,7 +6,11 @@ import Axios, {AxiosResponse} from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 
-const FileUpload:React.FC = () => {
+interface FileUploadProps {
+    onChange: (data: number[]) => void;
+}
+
+const FileUpload:React.FC<FileUploadProps> = ({ onChange }) => {
 
     const dropHandler = (files: File[]) => {
         let formData = new FormData();
@@ -24,6 +28,7 @@ const FileUpload:React.FC = () => {
         }).then((response: AxiosResponse<number[]>) => {
             if(response.status === 200) {
                 console.log(response.data);
+                onChange(response.data);
                 Swal.fire({
                     icon: "success",
                     title: "이미지 업로드 성공",

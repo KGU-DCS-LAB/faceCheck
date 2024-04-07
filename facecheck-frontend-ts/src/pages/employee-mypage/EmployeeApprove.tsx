@@ -5,14 +5,23 @@ import Swal from "sweetalert2";
 import Axios, {AxiosResponse} from "axios";
 import Cookies from "js-cookie";
 import FileUpload from "../fileUpload/FileUpload";
-import Dropzone from "react-dropzone";
 
 const EmployeeApprove:React.FC = () => {
 
     const [name, setName] = useState<String>("");
     const [department, setDepartment] = useState<String>("");
     const [position, setPosition] = useState<String>("");
+    const [mainImageId, setMainImageId] = useState<Array<Number>>([])       //기본 이미지
+    const [aiImageId, setAiImageId] = useState<Array<Number>>([])   //AI 학습을 위한 이미지
     const Id = Cookies.get("ID");
+
+    const onMainImageIdChange = (imageId: Array<Number>) =>{
+        setMainImageId(imageId);
+    }
+
+    const onAiImageIdChange = (imageId: Array<Number>) =>{
+        setAiImageId(imageId);
+    }
 
     const onNameChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setName(e.target.value);
@@ -38,37 +47,40 @@ const EmployeeApprove:React.FC = () => {
             return;
         }
 
-            const variables = {
-                name: name,
-                department: department,
-                position: position,
-                // mainImageURL: "",
-                // imagesURL: ["","",""],
-            };
+        const variables = {
+            name: name,
+            department: department,
+            position: position,
+            mainImageId: mainImageId[0],
+            openFaceImageId: aiImageId,
+        };
 
-            Axios.post(`/employee/approve/${Id}`, variables, {
-                headers: {
-                        "Authorization": `Bearer ${Cookies.get("accessToken")}`,
-                        "Content-Type": "application/json",
-                    },
-                }).then((response: AxiosResponse<String>) => {
-                    if(response.status === 200) {
-                        console.log(response.data);
-                        Swal.fire({
-                            icon: "success",
-                            title: "직원 승인 요청 성공",
-                            text: "성공적으로 승인 요청되었습니다.",
-                        });
-                    }
-            }).catch((error: any) => {
-                if(error.response.status === 400) {
-                    Swal.fire({
-                        icon: "error",
-                        title: "직원 승인 요청 실패",
-                        text: error.response.data,
-                    });
-                }
-            })
+        Axios.post(`/employee/approve/${Id}`, variables, {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                "Content-Type": "application/json",
+            },
+        }).then((response: AxiosResponse<String>) => {
+            if(response.status === 200) {
+                console.log(response.data);
+                setName("");        //텍스트 필드 초기화
+                setDepartment("");
+                setPosition("");
+                Swal.fire({
+                    icon: "success",
+                    title: "직원 승인 요청 성공",
+                    text: "성공적으로 승인 요청되었습니다.",
+                });
+            }
+        }).catch((error: any) => {
+            if(error.response.status === 400) {
+                Swal.fire({
+                    icon: "error",
+                    title: "직원 승인 요청 실패",
+                    text: error.response.data,
+                });
+            }
+        })
     }
 
     const titleStyle = {
@@ -95,11 +107,11 @@ const EmployeeApprove:React.FC = () => {
                 <Grid container rowSpacing={3} columnSpacing={{ xs: 2, sm: 2, md: 2 }}>
                     <Grid item xs={12} md={6}>
                         <InputLabel>기본 이미지</InputLabel><br/>
-                        <FileUpload/>
+                        <FileUpload onChange={onMainImageIdChange}/>
                     </Grid>
                     <Grid item xs={12} md={6}>
                         <InputLabel>AI 학습을 위한 이미지(10장)</InputLabel><br/>
-                        <FileUpload/>
+                        <FileUpload onChange={onAiImageIdChange}/>
                     </Grid>
                 </Grid>
                 <br/>
