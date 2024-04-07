@@ -4,6 +4,8 @@ import Grid from "@mui/material/Grid";
 import Swal from "sweetalert2";
 import Axios, {AxiosResponse} from "axios";
 import Cookies from "js-cookie";
+import FileUpload from "../fileUpload/FileUpload";
+import Dropzone from "react-dropzone";
 
 const EmployeeApprove:React.FC = () => {
 
@@ -90,55 +92,53 @@ const EmployeeApprove:React.FC = () => {
                 <Typography variant="h5" style={titleStyle}>
                     직원 승인 요청
                 </Typography>
-                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+                <Grid container rowSpacing={3} columnSpacing={{ xs: 2, sm: 2, md: 2 }}>
                     <Grid item xs={12} md={6}>
-                        <Box style={textFieldMargin}>
-                            <InputLabel>이름</InputLabel>
-                            <TextField
-                                variant="outlined"
-                                fullWidth
-                                value={name}
-                                onChange={onNameChange}
-                            />
-                        </Box>
+                        <InputLabel>기본 이미지</InputLabel><br/>
+                        <FileUpload/>
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <Box style={textFieldMargin}>
-                            <InputLabel>부서</InputLabel>
-                            <TextField
-                                variant="outlined"
-                                fullWidth
-                                value={department}
-                                onChange={onDepartmentChange}
-                            />
-                        </Box>
+                        <InputLabel>AI 학습을 위한 이미지(10장)</InputLabel><br/>
+                        <FileUpload/>
                     </Grid>
-                    <Grid item xs={12} md={6}>
-                        <Box style={textFieldMargin}>
-                            <InputLabel>직급</InputLabel>
-                            <TextField
-                                variant="outlined"
-                                fullWidth
-                                value={position}
-                                onChange={onPositionChange}
-                            />
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={6}></Grid>
-                    <Button
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        style={{
-                            marginTop: "20px",
-                            width: "10%",
-                            marginLeft: "auto",
-                        }}
-                        onClick={onClick}
-                    >
-                        요청
-                    </Button>
                 </Grid>
+                <br/>
+                <Box style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                    <InputLabel>이름</InputLabel>
+                    <TextField
+                        variant="outlined"
+                        fullWidth
+                        value={name}
+                        onChange={onNameChange}
+                    />
+                    <InputLabel>부서</InputLabel>
+                    <TextField
+                        variant="outlined"
+                        fullWidth
+                        value={department}
+                        onChange={onDepartmentChange}
+                    />
+                    <InputLabel>직급</InputLabel>
+                    <TextField
+                        variant="outlined"
+                        fullWidth
+                        value={position}
+                        onChange={onPositionChange}
+                    />
+                </Box>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    // fullWidth
+                    style={{
+                        marginTop: "20px",
+                        width: "10%",
+                        // marginRight: "auto",
+                    }}
+                    onClick={onClick}
+                >
+                    요청
+                </Button>
             </div>
         </div>
     )
