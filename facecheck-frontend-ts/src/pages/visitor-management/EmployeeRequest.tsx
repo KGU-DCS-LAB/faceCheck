@@ -9,6 +9,9 @@ import {
 } from "@mui/material";
 import Axios from "axios";
 import Cookies from "js-cookie";
+import {AxiosResponse} from "axios/index";
+import Swal from "sweetalert2";
+
 
 const EmployeeRequest:React.FC = () => {
 
@@ -40,6 +43,33 @@ const EmployeeRequest:React.FC = () => {
                 }
             })
     }, [])
+
+    const onClickApprove = (number:string) => {
+        Axios.post(`/admin/employee/approve/${number}`, null, {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                "Content-Type": "application/json",
+            },
+        }).then((response: AxiosResponse<String>) => {
+            if(response.status === 200) {
+                console.log(response.data);
+                Swal.fire({
+                    icon: "success",
+                    title: "직원 승인 성공",
+                    text: "성공적으로 승인되었습니다.",
+                });
+            }
+        }).catch((error: any) => {
+            if(error.response.status === 400) {
+                console.log(error);
+                Swal.fire({
+                    icon: "error",
+                    title: "직원 승인 실패",
+                    text: error.response.data,
+                });
+            }
+        })
+    }
 
     interface employeeType {
         name: string;
@@ -91,7 +121,7 @@ const EmployeeRequest:React.FC = () => {
                                             width: "10%",
                                             marginLeft: "1px"
                                         }}
-                                        //onClick={onClick}
+                                        onClick = {() => onClickApprove(employee.number)}
                                     >
                                         승인
                                     </Button>
