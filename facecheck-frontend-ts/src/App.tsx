@@ -15,6 +15,8 @@ import Sidebar from "./pages/Sidebar";
 import VisitorMypage from "./pages/visitor-mypage/VisitorMypage";
 import EmployeeMypage from "./pages/employee-mypage/EmployeeMypage";
 import EmployeeApprove from "./pages/employee-mypage/EmployeeApprove";
+import SystemManagement from "./pages/system-management/SystemManagement";
+import CompanyInformationEnter from "./pages/system-management/CompanyInformationEnter";
 
 function LocationAwareComponent() {         //현재 페이지의 경로가 "/system-management" 또는 "/visitor-management"으로 시작하면 Sidebar 컴포넌트를 렌더링
     const location = useLocation();
@@ -47,6 +49,11 @@ function App() {
                             <Route path="visitor/request" element={<VisitorRequest />} />
                             <Route path="employee/request" element={<EmployeeRequest />} />
                             {/*<Route element={<Outlet />} />*/}
+                        </Route>
+
+                        //시스템 관리
+                        <Route path="/system-management" element={<SystemManagement />}>
+                            <Route path="companyInformation/enter" element={<CompanyInformationEnter />} />
                         </Route>
 
                         //직원 마이페이지
