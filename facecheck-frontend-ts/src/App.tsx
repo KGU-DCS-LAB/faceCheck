@@ -17,6 +17,12 @@ import EmployeeMypage from "./pages/employee-mypage/EmployeeMypage";
 import EmployeeApprove from "./pages/employee-mypage/EmployeeApprove";
 import SystemManagement from "./pages/system-management/SystemManagement";
 import CompanyInformationEnter from "./pages/system-management/CompanyInformationEnter";
+import EmployeeAccessRecord from "./pages/system-management/EmployeeAccessRecord";
+import VisitorAccessRecord from "./pages/system-management/VisitorAccessRecord";
+import FacialRecognitionRegister from "./pages/system-management/FacialRecognitionRegister";
+import FacialRecognitionList from "./pages/system-management/FacialRecognitionList";
+import CompanyInformationCamera from "./pages/system-management/CompanyInformationCamera";
+import CompanyInformationCompanyList from "./pages/system-management/CompanyInformationCompanyList";
 
 function LocationAwareComponent() {         //현재 페이지의 경로가 "/system-management" 또는 "/visitor-management"으로 시작하면 Sidebar 컴포넌트를 렌더링
     const location = useLocation();
@@ -53,7 +59,13 @@ function App() {
 
                         //시스템 관리
                         <Route path="/system-management" element={<SystemManagement />}>
+                            <Route path="employee/accessRecord" element={<EmployeeAccessRecord />} />
+                            <Route path="visitor/accessRecord" element={<VisitorAccessRecord />} />
+                            <Route path="facialRecognition/register" element={<FacialRecognitionRegister />} />
+                            <Route path="facialRecognition/list" element={<FacialRecognitionList />} />
                             <Route path="companyInformation/enter" element={<CompanyInformationEnter />} />
+                            <Route path="companyInformation/camera" element={<CompanyInformationCamera />} />
+                            <Route path="companyInformation/companyList" element={<CompanyInformationCompanyList />} />
                         </Route>
 
                         //직원 마이페이지
