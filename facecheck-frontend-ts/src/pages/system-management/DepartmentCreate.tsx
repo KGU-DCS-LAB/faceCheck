@@ -1,6 +1,10 @@
 import React, {useRef, useState} from "react";
-import {IconButton, TextField} from "@mui/material";
+import {Button, IconButton, TextField} from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Swal from "sweetalert2";
+import Axios from "axios";
+import {AxiosResponse} from "axios/index";
+import Cookies from "js-cookie";
 
 const DepartmentCreate:React.FC = () => {
     const [department, setDepartment] = useState<String>("");
@@ -29,6 +33,46 @@ const DepartmentCreate:React.FC = () => {
         }
     }
 
+    const onRegister = (e:React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+
+        if(departmentList.length < 1){
+            Swal.fire({
+                icon: "error",
+                title: "입력 오류",
+                text: "등록할 부서를 하나 이상 입력하세요.",
+            });
+            return;
+        }
+
+        const variable = {
+            department: departmentList,
+        }
+
+
+        Axios.post("/admin/department/create", variable, {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                "Content-Type": "application/json",
+            },
+        }).then((response: AxiosResponse<String>) => {
+            if(response.data) {
+                Swal.fire({
+                    icon: "success",
+                    title: "부서 등록 성공",
+                    text: "부서가 성공적으로 등록되었습니다.",
+                });
+                setDepartmentList([]);
+            } else {
+                Swal.fire({
+                    icon: "error",
+                    title: "부서 등록 실패",
+                    text: "부서 등록에 실패했습니다.",
+                });
+            }
+        })
+    }
+
     const style = {
         marginLeft : "auto",
         marginRight: "auto",
@@ -54,6 +98,7 @@ const DepartmentCreate:React.FC = () => {
                 onKeyDown={onCheckEnter}
                 inputRef={inputRef}
             />
+            <hr />
             {departmentList.map((item, index) => (
                 <div style={style} key={index}>
                     {item}
@@ -66,6 +111,14 @@ const DepartmentCreate:React.FC = () => {
                     </IconButton>
                 </div>
             ))}
+            <Button
+                variant="outlined"
+                color="primary"
+                style={{marginTop : "10px", float : "right"}}
+                onClick={onRegister}
+            >
+                모두 등록
+            </Button>
         </div>
     )
 
