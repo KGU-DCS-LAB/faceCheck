@@ -3,7 +3,7 @@ import {Button, IconButton, TextField} from "@mui/material";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import Swal from "sweetalert2";
 import Axios from "axios";
-import {AxiosResponse} from "axios/index";
+import {AxiosResponse} from "axios";
 import Cookies from "js-cookie";
 
 const DepartmentRegister:React.FC = () => {
