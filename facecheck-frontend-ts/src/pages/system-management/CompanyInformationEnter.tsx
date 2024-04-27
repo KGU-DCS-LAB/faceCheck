@@ -19,7 +19,7 @@ const CompanyInformationEnter:React.FC = () => {
     return(
         <div>
             <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={12} sm={12} md={6}>
                     <div style={marginStyle}>
                         <Typography variant="h5" style={titleStyle}>
                             부서 등록
@@ -27,7 +27,7 @@ const CompanyInformationEnter:React.FC = () => {
                         <DepartmentRegister />
                     </div>
                     </Grid>
-                    <Grid item xs={6}>
+                    <Grid item xs={12} sm={12} md={6}>
                         <div style={marginStyle}>
                             <Typography variant="h5" style={titleStyle}>
                                 직급 등록
