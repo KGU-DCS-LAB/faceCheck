@@ -11,6 +11,10 @@ const DepartmentCreate:React.FC = () => {
         setDepartment(e.target.value);
     }
 
+    const onDelete = (item:String) => {
+        setDepartmentList(departmentList.filter(v => v !== item));
+    }
+
     const onCheckEnter = (e:React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && !e.nativeEvent.isComposing) {
             if (department.length < 1) {
@@ -56,8 +60,8 @@ const DepartmentCreate:React.FC = () => {
                     <IconButton
                         color="error"
                         component="label"
-                        onClick={() => {
-                        }}>
+                        onClick={() => onDelete(item)}
+                    >
                         <DeleteOutlineOutlinedIcon fontSize="small"/>
                     </IconButton>
                 </div>
