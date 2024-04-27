@@ -1,7 +1,7 @@
 import React from "react";
 import {Box, Button, InputLabel, TextField, Typography} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import DepartmentCreate from "./DepartmentCreate";
+import DepartmentRegister from "./DepartmentRegister";
 
 const CompanyInformationEnter:React.FC = () => {
 
@@ -23,7 +23,7 @@ const CompanyInformationEnter:React.FC = () => {
                         <Typography variant="h5" style={titleStyle}>
                             부서 등록
                         </Typography>
-                        <DepartmentCreate />
+                        <DepartmentRegister />
                     </div>
                     </Grid>
                     <Grid item xs={6}>

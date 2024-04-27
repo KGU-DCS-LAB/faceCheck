@@ -6,7 +6,7 @@ import Axios from "axios";
 import {AxiosResponse} from "axios/index";
 import Cookies from "js-cookie";
 
-const DepartmentCreate:React.FC = () => {
+const DepartmentRegister:React.FC = () => {
     const [department, setDepartment] = useState<String>("");
     const [departmentList, setDepartmentList] = useState<String[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
@@ -124,4 +124,4 @@ const DepartmentCreate:React.FC = () => {
 
 }
 
-export default DepartmentCreate;
+export default DepartmentRegister;
