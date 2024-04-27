@@ -1,8 +1,40 @@
 import React from "react";
+import {Box, Button, InputLabel, TextField, Typography} from "@mui/material";
+import Grid from "@mui/material/Grid";
+import DepartmentCreate from "./DepartmentCreate";
 
 const CompanyInformationEnter:React.FC = () => {
+
+    const titleStyle = {
+        fontWeight: "bold",
+        fontFamily: "Noto Serif KR, serif",
+        marginBottom: "40px"
+    };
+
+    const marginStyle = {
+        margin: "50px",
+    };
+
     return(
-        <div>회사정보입력</div>
+        <div>
+            <Grid container spacing={2}>
+                <Grid item xs={6}>
+                    <div style={marginStyle}>
+                        <Typography variant="h5" style={titleStyle}>
+                            부서 등록
+                        </Typography>
+                        <DepartmentCreate />
+                    </div>
+                    </Grid>
+                    <Grid item xs={6}>
+                        <div style={marginStyle}>
+                            <Typography variant="h5" style={titleStyle}>
+                                직급 등록
+                            </Typography>
+                        </div>
+                    </Grid>
+            </Grid>
+        </div>
     )
 
 }
