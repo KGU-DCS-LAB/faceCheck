@@ -39,7 +39,7 @@ const EmployeeRegister:React.FC = () => {
             Swal.fire({
                 icon: "error",
                 title: "입력 오류",
-                text: "이름과 번호를 모두 입력하세요.",
+                text: "이름과 사번을 모두 입력하세요.",
             });
             return;
         }
