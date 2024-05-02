@@ -7,15 +7,14 @@ import {
     InputLabel,
     MenuItem, OutlinedInput,
     Select, SelectChangeEvent,
-    TextField, Theme,
+    TextField,
     Typography,
-    useTheme
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import Axios from "axios";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
-import {AxiosResponse} from "axios/index";
+import {AxiosResponse} from "axios";
 
 const VisitorRegister:React.FC = () => {
     const [name, setName] = useState<String>("");
