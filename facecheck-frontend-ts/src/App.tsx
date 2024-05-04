@@ -12,8 +12,7 @@ import VisitorList from "./pages/visitor-management/VisitorList";
 import VisitorRequest from "./pages/visitor-management/VisitorRequest";
 import EmployeeRequest from "./pages/visitor-management/EmployeeRequest";
 import Sidebar from "./pages/Sidebar";
-import VisitorMypage from "./pages/visitor-mypage/VisitorMypage";
-import EmployeeMypage from "./pages/employee-mypage/EmployeeMypage";
+import Mypage from "./pages/employee-mypage/Mypage";
 import EmployeeApprove from "./pages/employee-mypage/EmployeeApprove";
 import SystemManagement from "./pages/system-management/SystemManagement";
 import CompanyInformationEnter from "./pages/system-management/CompanyInformationEnter";
@@ -23,6 +22,7 @@ import FacialRecognitionRegister from "./pages/system-management/FacialRecogniti
 import FacialRecognitionList from "./pages/system-management/FacialRecognitionList";
 import CompanyInformationCamera from "./pages/system-management/CompanyInformationCamera";
 import CompanyInformationCompanyList from "./pages/system-management/CompanyInformationCompanyList";
+import VisitorApprove from "./pages/employee-mypage/VisitorApprove";
 
 function LocationAwareComponent() {         //현재 페이지의 경로가 "/system-management" 또는 "/visitor-management"으로 시작하면 Sidebar 컴포넌트를 렌더링
     const location = useLocation();
@@ -69,12 +69,13 @@ function App() {
                         </Route>
 
                         //직원 마이페이지
-                        <Route path="/employee-mypage" element={<EmployeeMypage />}>
+                        <Route path="/employee-mypage" element={<Mypage />}>
                             <Route path="employeeApprove" element={<EmployeeApprove />} />
                         </Route>
 
                         //방문자 마이페이지
-                        <Route path="/visitor-mypage" element={<VisitorMypage />}>
+                        <Route path="/visitor-mypage" element={<Mypage />}>
+                            <Route path="visitorApprove" element={<VisitorApprove />} />
                         </Route>
 
                     </Routes>
