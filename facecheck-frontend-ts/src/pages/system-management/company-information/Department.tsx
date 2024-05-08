@@ -12,6 +12,7 @@ import Axios from "axios";
 import Cookies from "js-cookie";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import Swal from "sweetalert2";
 
 const Department:React.FC = () => {
 
@@ -34,6 +35,37 @@ const Department:React.FC = () => {
             })
     }, [])
 
+    const onDelete = (department:string) => (e:React.MouseEvent) => {
+        e.preventDefault();
+
+        const variables = {
+            department : department,
+        }
+
+        Axios.delete("/admin/department", {
+            data : variables,
+            headers :  {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                    "Content-Type": "application/json",
+            },
+        }).then(response => {
+            if(response.status === 200) {
+                setDepartments(prevDepartments => prevDepartments.filter(department => department !== variables.department));
+                Swal.fire({
+                    icon: "success",
+                    title: "부서 삭제 성공",
+                    text: "부서가 성공적으로 삭제되었습니다.",
+                });
+            }else{
+                Swal.fire({
+                    icon: "error",
+                    title: "부서 삭제 실패",
+                    text: "부서 삭제에 실패했습니다.",
+                });
+            }
+        })
+    }
+
     return(
         <TableContainer component={Paper} sx={{width: "100%"}}>
             <Table aria-label="simple table">
@@ -55,7 +87,7 @@ const Department:React.FC = () => {
                             <TableCell component="th" scope="row">{index+1}</TableCell>
                             <TableCell align="center">{department}</TableCell>
                             <TableCell align="right"><EditOutlinedIcon /></TableCell>
-                            <TableCell align="center"><DeleteOutlineOutlinedIcon /></TableCell>
+                            <TableCell align="center"><DeleteOutlineOutlinedIcon onClick={onDelete(department)}/></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
