@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from "react";
 import {
+    Alert,
     Paper,
     Table,
     TableBody,
@@ -14,6 +15,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 import Swal from "sweetalert2";
+import {AlertTitle} from "@mui/lab";
 
 const Department:React.FC = () => {
 
@@ -114,50 +116,56 @@ const Department:React.FC = () => {
 
 
     return(
-        <TableContainer component={Paper} sx={{width: "100%"}}>
-            <Table aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Index</TableCell>
-                        <TableCell align="center">Department Name</TableCell>
-                        <TableCell align="right">Edit</TableCell>
-                        <TableCell align="center">Delete</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {departments.map((department, index) => (
-                        <TableRow
-                            key={index}
-                            sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                            style={{ height : "70px" }}
-                        >
-                            <TableCell component="th" scope="row">{index+1}</TableCell>
-                            {
-                                editIndex === index?
-                                    <TableCell align="center" style={{ padding: "0px", margin: "0px", width: "43%"}}>
-                                        <TextField
-                                            label="edit"
-                                            defaultValue={department}
-                                            onChange={onEditChange}
-                                            onKeyDown={onCheckEnter(department, index)}
-                                            inputRef={inputRef}
-                                        />
-                                    </TableCell>
-                                    :
-                                    <TableCell align="center">{department}</TableCell>
-                            }
-                            {
-                                editIndex === index?
-                                    <TableCell align="right"><SaveAsOutlinedIcon onClick={() => onEditSave(department, index)} /></TableCell>
-                                    :
-                                    <TableCell align="right"><EditOutlinedIcon onClick={() => onEditState(index)} /></TableCell>
-                            }
-                            <TableCell align="center"><DeleteOutlineOutlinedIcon onClick={() => onDelete(department)} /></TableCell>
+        <div>
+            <Alert severity="info">
+                이 페이지에서 부서 정보 조회, 수정, 삭제를 할 수 있습니다.
+            </Alert>
+
+            <TableContainer component={Paper} sx={{width: "100%", marginTop : "20px"}}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Index</TableCell>
+                            <TableCell align="center">Department Name</TableCell>
+                            <TableCell align="right">Edit</TableCell>
+                            <TableCell align="center">Delete</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+                    </TableHead>
+                    <TableBody>
+                        {departments.map((department, index) => (
+                            <TableRow
+                                key={index}
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                style={{ height : "70px" }}
+                            >
+                                <TableCell component="th" scope="row">{index+1}</TableCell>
+                                {
+                                    editIndex === index?
+                                        <TableCell align="center" style={{ padding: "0px", margin: "0px", width: "43%"}}>
+                                            <TextField
+                                                label="edit"
+                                                defaultValue={department}
+                                                onChange={onEditChange}
+                                                onKeyDown={onCheckEnter(department, index)}
+                                                inputRef={inputRef}
+                                            />
+                                        </TableCell>
+                                        :
+                                        <TableCell align="center">{department}</TableCell>
+                                }
+                                {
+                                    editIndex === index?
+                                        <TableCell align="right"><SaveAsOutlinedIcon onClick={() => onEditSave(department, index)} /></TableCell>
+                                        :
+                                        <TableCell align="right"><EditOutlinedIcon onClick={() => onEditState(index)} /></TableCell>
+                                }
+                                <TableCell align="center"><DeleteOutlineOutlinedIcon onClick={() => onDelete(department)} /></TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
     )
 }
 
