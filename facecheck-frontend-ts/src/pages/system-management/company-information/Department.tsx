@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {
     Paper,
     Table,
@@ -6,17 +6,21 @@ import {
     TableCell,
     TableContainer,
     TableHead,
-    TableRow
+    TableRow, TextField
 } from "@mui/material";
-import Axios from "axios";
+import Axios, {AxiosResponse} from "axios";
 import Cookies from "js-cookie";
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import SaveAsOutlinedIcon from '@mui/icons-material/SaveAsOutlined';
 import Swal from "sweetalert2";
 
 const Department:React.FC = () => {
 
-    const [departments, setDepartments] = useState([])
+    const [departments, setDepartments] = useState<string[]>([])
+    const [editIndex, setEditIndex] = useState<number | null>(null);
+    const [editDepartment, setEditDepartment] = useState("");
+    const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         Axios.get('/admin/company', {
@@ -35,8 +39,46 @@ const Department:React.FC = () => {
             })
     }, [])
 
-    const onDelete = (department:string) => (e:React.MouseEvent) => {
-        e.preventDefault();
+    const onEditChange = (e:React.ChangeEvent<HTMLInputElement>) => {
+        setEditDepartment(e.target.value);
+    }
+
+    const onEditSave = (department : string , index : number) => {
+        if (editDepartment.length < 1) {
+            setEditDepartment(department);      //수정하지 않고 엔터를 눌렀을 경우 기존 부서 이름이 저장되도록 하기 위함
+            return;
+        }
+
+        const variable = {
+            name: department,
+            changeName: editDepartment,
+        }
+
+        Axios.patch("/admin/department/update", variable, {
+            headers: {
+                "Authorization": `Bearer ${Cookies.get("accessToken")}`,
+                "Content-Type": "application/json",
+            },
+        }).then((response: AxiosResponse<String>) => {
+            if(response.status === 200){
+                setDepartments(prevDepartments => {
+                    const newDepartments = [...prevDepartments];
+                    newDepartments[index] = editDepartment;
+                    return newDepartments;
+                });
+                setEditIndex(null);
+                setEditDepartment("");
+            }
+        })
+    }
+
+    const onCheckEnter = (department : string , index : number) =>  (e:React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter" && !e.nativeEvent.isComposing) {
+            onEditSave(department, index)
+        }
+    }
+
+    const onDelete = (department:string) => {
 
         const variables = {
             department : department,
@@ -46,7 +88,7 @@ const Department:React.FC = () => {
             data : variables,
             headers :  {
                 "Authorization": `Bearer ${Cookies.get("accessToken")}`,
-                    "Content-Type": "application/json",
+                "Content-Type": "application/json",
             },
         }).then(response => {
             if(response.status === 200) {
@@ -65,6 +107,11 @@ const Department:React.FC = () => {
             }
         })
     }
+
+    const onEditState = (index:number) => {
+        setEditIndex(index);
+    }
+
 
     return(
         <TableContainer component={Paper} sx={{width: "100%"}}>
@@ -85,9 +132,27 @@ const Department:React.FC = () => {
                             style={{ height : "70px" }}
                         >
                             <TableCell component="th" scope="row">{index+1}</TableCell>
-                            <TableCell align="center">{department}</TableCell>
-                            <TableCell align="right"><EditOutlinedIcon /></TableCell>
-                            <TableCell align="center"><DeleteOutlineOutlinedIcon onClick={onDelete(department)}/></TableCell>
+                            {
+                                editIndex === index?
+                                    <TableCell align="center" style={{ padding: "0px", margin: "0px", width: "43%"}}>
+                                        <TextField
+                                            label="edit"
+                                            defaultValue={department}
+                                            onChange={onEditChange}
+                                            onKeyDown={onCheckEnter(department, index)}
+                                            inputRef={inputRef}
+                                        />
+                                    </TableCell>
+                                    :
+                                    <TableCell align="center">{department}</TableCell>
+                            }
+                            {
+                                editIndex === index?
+                                    <TableCell align="right"><SaveAsOutlinedIcon onClick={() => onEditSave(department, index)} /></TableCell>
+                                    :
+                                    <TableCell align="right"><EditOutlinedIcon onClick={() => onEditState(index)} /></TableCell>
+                            }
+                            <TableCell align="center"><DeleteOutlineOutlinedIcon onClick={() => onDelete(department)} /></TableCell>
                         </TableRow>
                     ))}
                 </TableBody>
