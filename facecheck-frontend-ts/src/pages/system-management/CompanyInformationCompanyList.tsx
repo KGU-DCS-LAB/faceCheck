@@ -2,6 +2,7 @@ import React from "react";
 import {Box, Tab, Typography} from "@mui/material";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
 import Department from "./company-information/Department";
+import Position from "./company-information/Position";
 
 
 const CompanyInformationCompanyList:React.FC = () => {
@@ -38,7 +39,7 @@ const CompanyInformationCompanyList:React.FC = () => {
                             </TabList>
                         </Box>
                         <TabPanel style={{margin: "25px"}} value="1"><Department /></TabPanel>
-                        <TabPanel value="2">Item Two</TabPanel>
+                        <TabPanel style={{margin: "25px"}} value="2"><Position /></TabPanel>
                         <TabPanel value="3">Item Three</TabPanel>
                     </TabContext>
                 </Box>
