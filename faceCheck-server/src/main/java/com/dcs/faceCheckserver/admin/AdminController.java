@@ -64,4 +64,10 @@ public class AdminController {
     public List<EmployeeRecordListDTO> getEmployeeRecords() {
         return adminService.getEmployeeRecords();
     }
+
+    //방문자 출입 기록 조회
+    @RequestMapping(value = "/visitor/records", method = RequestMethod.GET)
+    public List<VisitorRecordListDTO> getVisitorRecords() {
+        return adminService.getVisitorRecords();
+    }
 }

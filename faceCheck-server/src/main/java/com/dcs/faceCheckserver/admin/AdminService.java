@@ -4,6 +4,7 @@ import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
 //import com.dcs.faceCheckserver.auth.service.AuthService;
 import com.dcs.faceCheckserver.admin.dto.EmployeeRecordListDTO;
+import com.dcs.faceCheckserver.admin.dto.VisitorRecordListDTO;
 import com.dcs.faceCheckserver.company.data.CameraDepartment;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.repository.CameraRepository;
@@ -204,10 +205,10 @@ public class AdminService {
     public List<EmployeeRecordListDTO> getEmployeeRecords() {
         //Record 중 employeeId가 null이 아닌 데이터만 가져오기
         List<Record> recordList = recordRepository.findByEmployeeIsNotNull();
-        return convertToDTOList(recordList);
+        return convertToEmployeeDTOList(recordList);
     }
 
-    private List<EmployeeRecordListDTO> convertToDTOList(List<Record> recordList) {
+    private List<EmployeeRecordListDTO> convertToEmployeeDTOList(List<Record> recordList) {
         List<EmployeeRecordListDTO> dtoList = new ArrayList<>();
         for (Record record : recordList) {
             EmployeeRecordListDTO dto = new EmployeeRecordListDTO();
@@ -217,6 +218,32 @@ public class AdminService {
             dto.setNumber(employee.getNumber());
             dto.setDepartment(employee.getDepartment().getDepartment());
             dto.setPosition(employee.getPosition().getPosition());
+            dto.setCamera(record.getCamera().getName());
+
+            LocalDateTime dateTime = record.getDateTime();
+            // DateTimeFormatter를 사용하여 원하는 형식으로 포맷 지정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+            // LocalDateTime을 문자열로 포맷팅
+            String formattedDateTime = dateTime.format(formatter);
+            dto.setDate(formattedDateTime);
+
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
+    public List<VisitorRecordListDTO> getVisitorRecords() {
+        List<Record> recordList = recordRepository.findByVisitorIsNotNull();
+        return convertToVisitorDTOList(recordList);
+    }
+
+    private List<VisitorRecordListDTO> convertToVisitorDTOList(List<Record> recordList) {
+        List<VisitorRecordListDTO> dtoList = new ArrayList<>();
+        for (Record record : recordList) {
+            VisitorRecordListDTO dto = new VisitorRecordListDTO();
+
+            Visitor visitor = record.getVisitor();
+            dto.setName(visitor.getName());
             dto.setCamera(record.getCamera().getName());
 
             LocalDateTime dateTime = record.getDateTime();

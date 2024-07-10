@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface RecordRepository extends JpaRepository<Record, Long> {
     List<Record> findByEmployeeIsNotNull();
+
+    List<Record> findByVisitorIsNotNull();
 }
