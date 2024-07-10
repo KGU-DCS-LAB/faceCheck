@@ -93,17 +93,17 @@ public class EmployeeService {
         Employee employee = employeeRepository.findByEmployeeId(employeeId)
                 .orElseThrow(() -> new RuntimeException(employeeId + "에 대한 직원을 찾을 수 없습니다."));
 
-        String exEmployeeId = updateEmployeeIdDTO.getExEmployeeId();
+        String newEmployeeId = updateEmployeeIdDTO.getNewEmployeeId();
 
         // 새로운 직원 아이디가 이미 사용 중인지 확인
-        Optional<Employee> existingEmployee = employeeRepository.findByEmployeeId(exEmployeeId);
+        Optional<Employee> existingEmployee = employeeRepository.findByEmployeeId(newEmployeeId);
         if (existingEmployee.isPresent()) {
             // 이미 사용 중인 경우
             return ResponseEntity.badRequest().body("이미 사용 중인 아이디입니다.");
         }
 
         // 새로운 직원 아이디로 변경
-        employee.setEmployeeId(exEmployeeId);
+        employee.setEmployeeId(newEmployeeId);
 
         // 변경된 직원 정보 저장
         employeeRepository.save(employee);
