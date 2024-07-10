@@ -1,5 +1,6 @@
 package com.dcs.faceCheckserver.company.data;
 
+import com.dcs.faceCheckserver.record.data.Record;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import jakarta.persistence.*;
 import lombok.*;
@@ -24,6 +25,9 @@ public class Camera {
 
     @OneToMany(mappedBy = "camera", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CameraVisitor> cameraVisitors;
+
+    @OneToMany
+    private List<Record> recordList; //카메라별 출입 기록
 
     public Camera(String cameraName) {
         this.name = cameraName;
