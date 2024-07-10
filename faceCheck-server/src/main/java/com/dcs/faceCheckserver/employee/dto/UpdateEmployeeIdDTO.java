@@ -4,5 +4,5 @@ import lombok.Data;
 
 @Data
 public class UpdateEmployeeIdDTO {
-    private String exEmployeeId;
+    private String newEmployeeId;
 }
