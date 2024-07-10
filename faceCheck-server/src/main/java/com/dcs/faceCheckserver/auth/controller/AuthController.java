@@ -1,5 +1,6 @@
 package com.dcs.faceCheckserver.auth.controller;
 
+import com.dcs.faceCheckserver.auth.dto.ChangePasswordRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.LoginRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.SignUpRequestDTO;
 import com.dcs.faceCheckserver.auth.dto.TokenDTO;
@@ -39,5 +40,10 @@ public class AuthController {
             return ResponseEntity.ok(tokenDTO);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    @PatchMapping("/password/{employeeId}")
+    public ResponseEntity<String> updatePassword(@PathVariable String employeeId, @RequestBody ChangePasswordRequestDTO changePasswordRequestDTO) {
+        return authService.updatePassword(employeeId, changePasswordRequestDTO.getExPassword(), changePasswordRequestDTO.getNewPassword());
     }
 }

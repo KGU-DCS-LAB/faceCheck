@@ -14,6 +14,7 @@ import com.dcs.faceCheckserver.visitor.VisitorRepository;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import com.dcs.faceCheckserver.visitor.data.Visitor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -95,6 +96,29 @@ public class AuthService {
             e.printStackTrace();
             // 로그인 실패
             return null;
+        }
+    }
+
+
+    public ResponseEntity<String> updatePassword(String employeeId, String exPassword, String newPassword) {
+        Employee employee = employeeRepository.findByEmployeeId(employeeId)
+                .orElseThrow(() -> new RuntimeException(employeeId + "에 대한 직원을 찾을 수 없습니다."));
+
+        String encodedOldPassword = employee.getEmployeePassword();
+
+        //사용자가 입력한 기존 비밀번호가 인코딩된 비밀번호와 일치하는지 확인
+        if (passwordEncoder.matches(exPassword, encodedOldPassword)) {
+            //새로운 비밀번호 인코딩
+            String encodedNewPassword = passwordEncoder.encode(newPassword);
+
+            //새로운 인코딩된 비밀번호를 저장
+            employee.setEmployeePassword(encodedNewPassword);
+            employeeRepository.save(employee);
+
+            return ResponseEntity.ok("비밀번호가 성공적으로 변경되었습니다.");
+        } else {
+            // 기존 비밀번호가 일치하지 않으면 비밀번호 변경 실패
+            return ResponseEntity.status(400).body("올바르지 않은 비밀번호 입니다.");
         }
     }
 }
