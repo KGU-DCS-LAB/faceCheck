@@ -14,6 +14,7 @@ import com.dcs.faceCheckserver.visitor.VisitorRepository;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import com.dcs.faceCheckserver.visitor.data.Visitor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,9 +23,11 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,7 +70,11 @@ public class AuthService {
         List<CameraVisitor> cameraVisitors = new ArrayList<>();
         List<String> cameraNames = signUpRequestDTO.getCameraNames();
         for (String cameraName: cameraNames) {
-            Camera camera = cameraRepository.findByName(cameraName);
+            Optional<Camera> cameraOptional = cameraRepository.findByName(cameraName);
+            if (cameraOptional.isEmpty()) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "얼굴 인식 카메라를 찾을 수 없습니다: " + cameraName);
+            }
+            Camera camera = cameraOptional.get();
             CameraVisitor cameraVisitor = new CameraVisitor(camera, visitor);
             cameraVisitors.add(cameraVisitor);
         }

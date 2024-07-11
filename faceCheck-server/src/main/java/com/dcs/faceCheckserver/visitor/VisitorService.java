@@ -1,6 +1,7 @@
 package com.dcs.faceCheckserver.visitor;
 
 import com.dcs.faceCheckserver.company.data.Camera;
+import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.record.data.Record;
 import com.dcs.faceCheckserver.record.dto.ResponseRecordDTO;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
@@ -20,9 +21,11 @@ import java.util.Optional;
 public class VisitorService {
 
     private final VisitorRepository visitorRepository;
+    private final CameraRepository cameraRepository;
 
-    public VisitorService(VisitorRepository visitorRepository) {
+    public VisitorService(VisitorRepository visitorRepository, CameraRepository cameraRepository) {
         this.visitorRepository = visitorRepository;
+        this.cameraRepository = cameraRepository;
     }
 
 
@@ -81,5 +84,42 @@ public class VisitorService {
             response.add(cameraVisitor.getCamera().getName());
         }
         return ResponseEntity.ok(response);
+    }
+
+    public ResponseEntity<String> approveVisitor(String visitorId, String name, String visitPurpose, List<String> cameraList, String mainImageId, List<String> openFaceImageId) {
+        Optional<Visitor> visitorOptional = visitorRepository.findByVisitorId(visitorId);
+        if (visitorOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("방문자가 존재하지 않습니다.");
+        }
+
+        Visitor visitor = visitorOptional.get();
+
+        if (!visitor.getState().equals("요청전")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("이미 승인 요청이 되었습니다: " + visitorId);
+        }
+
+        visitor.setName(name);
+        visitor.setVisitPurpose(visitPurpose);
+
+        List<CameraVisitor> cameraVisitorList = new ArrayList<>();
+        for (String cameraName: cameraList) {
+            Optional<Camera> cameraOptional = cameraRepository.findByName(cameraName);
+            if (cameraOptional.isEmpty()) {
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("카메라가 존재하지 않습니다: " + cameraName);
+            }
+            Camera camera = cameraOptional.get();
+
+            CameraVisitor cameraVisitor = new CameraVisitor(camera, visitor);
+            cameraVisitorList.add(cameraVisitor);
+        }
+        visitor.setCameraVisitors(cameraVisitorList);
+
+
+        //mainImageId, openFaceImageId
+
+        visitor.setState("요청");
+        visitorRepository.save(visitor);
+
+        return ResponseEntity.ok("성공적으로 승인 요청되었습니다.");
     }
 }

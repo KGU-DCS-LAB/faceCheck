@@ -15,6 +15,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,13 +116,14 @@ public class CompanyService {
     }
 
     public void updateCamera(String originalCameraName, String updateCameraName, List<String> changeDepartmentNames) {
-        Camera camera = cameraRepository.findByName(originalCameraName);
+        Optional<Camera> cameraOptional = cameraRepository.findByName(originalCameraName);
 
         // 카메라가 존재하지 않는 경우 에러 처리
-        if (camera == null) {
+        if (cameraOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "카메라를 찾을 수 없습니다: " + originalCameraName);
         }
 
+        Camera camera = cameraOptional.get();
         // 수정된 카메라 이름으로 업데이트합니다.
         camera.setName(updateCameraName);
 
@@ -169,13 +171,13 @@ public class CompanyService {
 
     public void deleteCamera(String cameraName) {
         // 주어진 카메라 이름에 해당하는 카메라를 찾습니다.
-        Camera camera = cameraRepository.findByName(cameraName);
+        Optional<Camera> cameraOptional = cameraRepository.findByName(cameraName);
 
         // 카메라가 존재하지 않는 경우 에러 처리
-        if (camera == null) {
+        if (cameraOptional.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "얼굴 인식 카메라를 찾을 수 없습니다: " + cameraName);
         }
-
+        Camera camera = cameraOptional.get();
         // 카메라를 삭제합니다.
         cameraRepository.delete(camera);
     }

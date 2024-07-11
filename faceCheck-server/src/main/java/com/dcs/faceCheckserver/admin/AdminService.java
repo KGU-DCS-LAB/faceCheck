@@ -25,6 +25,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -167,6 +168,7 @@ public class AdminService {
     public void createVisitor(String name, String number, List<String> cameras) {
         List<Camera> cameraList = cameras.stream()
                 .map(cameraRepository::findByName)
+                .flatMap(Optional::stream)
                 .filter(Objects::nonNull)
                 .toList();
 
