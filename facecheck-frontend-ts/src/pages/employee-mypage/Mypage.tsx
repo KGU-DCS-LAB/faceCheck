@@ -3,7 +3,7 @@ import SmallMainImage from "../../assets/smallMain.png";
 import {Box, Typography} from "@mui/material";
 import {Outlet} from "react-router-dom";
 
-const EmployeeMypage:React.FC = () => {
+const Mypage:React.FC = () => {
 
     return (
         <div style={{ marginLeft: "250px", borderLeft: "1px solid rgba(0, 0, 0, 0.12)"}}>
@@ -50,4 +50,4 @@ const EmployeeMypage:React.FC = () => {
     );
 };
 
-export default EmployeeMypage;
+export default Mypage;
