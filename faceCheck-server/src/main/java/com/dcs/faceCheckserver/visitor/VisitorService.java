@@ -67,4 +67,19 @@ public class VisitorService {
 
         return ResponseEntity.ok(visitorMypageResponseDTO);
     }
+
+    public ResponseEntity<?> getCameraList(String visitorId) {
+        Optional<Visitor> visitorOptional = visitorRepository.findByVisitorId(visitorId);
+        if (visitorOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("방문자가 존재하지 않습니다.");
+        }
+        Visitor visitor = visitorOptional.get();
+
+        List<String> response = new ArrayList<>();
+
+        for (CameraVisitor cameraVisitor : visitor.getCameraVisitors()) {
+            response.add(cameraVisitor.getCamera().getName());
+        }
+        return ResponseEntity.ok(response);
+    }
 }

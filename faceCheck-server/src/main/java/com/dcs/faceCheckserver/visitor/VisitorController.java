@@ -21,4 +21,10 @@ public class VisitorController {
     public ResponseEntity<?> getMypage(@PathVariable String visitorId) {
         return visitorService.getMypage(visitorId);
     }
+
+    //출입 가능 카메라 정보 조회
+    @RequestMapping(value = "/camera/{visitorId}", method = RequestMethod.GET)
+    public ResponseEntity<?> getCameraList(@PathVariable String visitorId) {
+        return visitorService.getCameraList(visitorId);
+    }
 }
