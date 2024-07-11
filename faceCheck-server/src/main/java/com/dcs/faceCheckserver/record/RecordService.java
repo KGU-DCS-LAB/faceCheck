@@ -10,6 +10,7 @@ import com.dcs.faceCheckserver.visitor.data.Visitor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -45,7 +46,12 @@ public class RecordService {
         }
 
         Employee employee = employeeOptional.get();
-        Camera camera = cameraRepository.findByName(cameraName);
+
+        Optional<Camera> cameraOptional = cameraRepository.findByName(cameraName);
+        if (cameraOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "얼굴 인식 카메라를 찾을 수 없습니다: " + cameraName);
+        }
+        Camera camera = cameraOptional.get();
         LocalDateTime localDateTime = parseDateTime(dateTime);
 
         recordRepository.save(new Record(employee, null, camera, localDateTime));
@@ -59,7 +65,12 @@ public class RecordService {
         }
 
         Visitor visitor = visitorOptional.get();
-        Camera camera = cameraRepository.findByName(cameraName);
+
+        Optional<Camera> cameraOptional = cameraRepository.findByName(cameraName);
+        if (cameraOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "얼굴 인식 카메라를 찾을 수 없습니다: " + cameraName);
+        }
+        Camera camera = cameraOptional.get();
         LocalDateTime localDateTime = parseDateTime(dateTime);
 
         recordRepository.save(new Record(null, visitor, camera, localDateTime));
