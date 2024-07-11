@@ -3,12 +3,16 @@ package com.dcs.faceCheckserver.admin;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedEmployeeListDTO;
 import com.dcs.faceCheckserver.admin.dto.AdminApprovedVisitorListDTO;
 //import com.dcs.faceCheckserver.auth.service.AuthService;
+import com.dcs.faceCheckserver.admin.dto.EmployeeRecordListDTO;
+import com.dcs.faceCheckserver.admin.dto.VisitorRecordListDTO;
 import com.dcs.faceCheckserver.company.data.CameraDepartment;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.repository.CameraRepository;
 import com.dcs.faceCheckserver.company.data.Camera;
 import com.dcs.faceCheckserver.employee.EmployeeRepository;
 import com.dcs.faceCheckserver.employee.data.Employee;
+import com.dcs.faceCheckserver.record.RecordRepository;
+import com.dcs.faceCheckserver.record.data.Record;
 import com.dcs.faceCheckserver.visitor.VisitorRepository;
 import com.dcs.faceCheckserver.visitor.data.CameraVisitor;
 import com.dcs.faceCheckserver.visitor.data.Visitor;
@@ -16,6 +20,8 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -29,6 +35,7 @@ public class AdminService {
     private final EmployeeRepository employeeRepository;
     private final VisitorRepository visitorRepository;
     private final CameraRepository cameraRepository;
+    private final RecordRepository recordRepository;
 //    private final AuthService authService;
 
 //    public boolean join(AdminJoinRequestDTO adminRequestDTO) {
@@ -193,5 +200,61 @@ public class AdminService {
         }
 
         return false;
+    }
+
+    public List<EmployeeRecordListDTO> getEmployeeRecords() {
+        //Record 중 employeeId가 null이 아닌 데이터만 가져오기
+        List<Record> recordList = recordRepository.findByEmployeeIsNotNull();
+        return convertToEmployeeDTOList(recordList);
+    }
+
+    private List<EmployeeRecordListDTO> convertToEmployeeDTOList(List<Record> recordList) {
+        List<EmployeeRecordListDTO> dtoList = new ArrayList<>();
+        for (Record record : recordList) {
+            EmployeeRecordListDTO dto = new EmployeeRecordListDTO();
+
+            Employee employee = record.getEmployee();
+            dto.setName(employee.getName());
+            dto.setNumber(employee.getNumber());
+            dto.setDepartment(employee.getDepartment().getDepartment());
+            dto.setPosition(employee.getPosition().getPosition());
+            dto.setCamera(record.getCamera().getName());
+
+            LocalDateTime dateTime = record.getDateTime();
+            // DateTimeFormatter를 사용하여 원하는 형식으로 포맷 지정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+            // LocalDateTime을 문자열로 포맷팅
+            String formattedDateTime = dateTime.format(formatter);
+            dto.setDate(formattedDateTime);
+
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
+
+    public List<VisitorRecordListDTO> getVisitorRecords() {
+        List<Record> recordList = recordRepository.findByVisitorIsNotNull();
+        return convertToVisitorDTOList(recordList);
+    }
+
+    private List<VisitorRecordListDTO> convertToVisitorDTOList(List<Record> recordList) {
+        List<VisitorRecordListDTO> dtoList = new ArrayList<>();
+        for (Record record : recordList) {
+            VisitorRecordListDTO dto = new VisitorRecordListDTO();
+
+            Visitor visitor = record.getVisitor();
+            dto.setName(visitor.getName());
+            dto.setCamera(record.getCamera().getName());
+
+            LocalDateTime dateTime = record.getDateTime();
+            // DateTimeFormatter를 사용하여 원하는 형식으로 포맷 지정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm");
+            // LocalDateTime을 문자열로 포맷팅
+            String formattedDateTime = dateTime.format(formatter);
+            dto.setDate(formattedDateTime);
+
+            dtoList.add(dto);
+        }
+        return dtoList;
     }
 }

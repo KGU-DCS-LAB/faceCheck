@@ -4,6 +4,7 @@ import com.dcs.faceCheckserver.auth.entity.Authority;
 import com.dcs.faceCheckserver.company.data.Department;
 import com.dcs.faceCheckserver.company.data.Position;
 import com.dcs.faceCheckserver.image.Image;
+import com.dcs.faceCheckserver.record.data.Record;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -43,6 +44,9 @@ public class Employee {
 
     @OneToMany
     private List<Image> openFaceImage; //openface 학습용 이미지
+
+    @OneToMany
+    private List<Record> recordList; //출입 기록
 
     @Builder
     public Employee(String name, String employeeId, String employeePassword, String number, Authority authority, String state) {

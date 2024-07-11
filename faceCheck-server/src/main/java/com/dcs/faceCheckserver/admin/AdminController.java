@@ -58,4 +58,16 @@ public class AdminController {
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 number의 방문자가 존재하지 않습니다.");
     }
+
+    //직원 출입 기록 조회
+    @RequestMapping(value = "/employee/records", method = RequestMethod.GET)
+    public List<EmployeeRecordListDTO> getEmployeeRecords() {
+        return adminService.getEmployeeRecords();
+    }
+
+    //방문자 출입 기록 조회
+    @RequestMapping(value = "/visitor/records", method = RequestMethod.GET)
+    public List<VisitorRecordListDTO> getVisitorRecords() {
+        return adminService.getVisitorRecords();
+    }
 }
