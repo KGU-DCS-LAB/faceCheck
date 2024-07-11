@@ -1,6 +1,7 @@
 package com.dcs.faceCheckserver.visitor.data;
 
 import com.dcs.faceCheckserver.auth.entity.Authority;
+import com.dcs.faceCheckserver.record.data.Record;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,9 @@ public class Visitor {
 
     @Enumerated(EnumType.STRING)
     private Authority authority;
+
+    @OneToMany
+    private List<Record> recordList; //출입 기록
 
     @Builder
     public Visitor(String visitorId, String visitorPassword, String name, String number, Authority authority, String state) {
